@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>/about/</loc>
+  </url><url>
+    <loc>/team/</loc>
+  </url><url>
+    <loc>/publications/</loc>
+    <lastmod>2022-01-25T14:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/software/</loc>
+    <lastmod>2022-01-25T14:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/blog/</loc>
+    <lastmod>2023-09-03T21:52:01+10:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2023-09-03T21:52:01+10:00</lastmod>
+  </url><url>
+    <loc>/blog/first-post/</loc>
+    <lastmod>2023-09-03T21:52:01+10:00</lastmod>
+  </url><url>
+    <loc>/categories/</loc>
+  </url><url>
+    <loc>/team/gerry-bio/</loc>
+  </url><url>
+    <loc>/team/sudaraka-bio/</loc>
+  </url><url>
+    <loc>/tags/</loc>
+  </url><url>
+    <loc>/team/</loc>
+  </url>
+</urlset>

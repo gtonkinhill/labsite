@@ -1,0 +1,41 @@
+{{ define "main" }}
+<main class="main list" role="main">
+    {{- if not .Params.hideTitle }}
+	{{- with .Title }}
+	<header class="main__header">
+		<h1 class="main__title">{{ . }}</h1>
+	</header>
+	{{- end }}
+    {{- end }}
+	{{- with .Content }}
+	<div class="content main__content clearfix">
+		{{ . }}
+	</div>
+	{{- end }}
+    {{ range .Pages }}
+    <div class="software-member">
+      <img class="software-photo" src="{{ .Params.image }}" alt="{{ .Title }}">
+      <div class="software-info">
+        <h2 class="software-name">{{ .Title }}</h2>
+        <p class="software-summary">{{ .Content }}</p>
+        <div class="software-links">
+          <!-- Code Repository Link -->
+          {{ if .Params.repo }}
+          <a href="{{ .Params.repo }}" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          {{ end }}
+          <!-- Manuscript Link -->
+          {{ if .Params.manuscript }}
+          <a href="{{ .Params.manuscript }}" class="manuscript-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-file-alt"></i> Manuscript
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+</main>
+{{ partial "pagination.html" . }}
+{{ end }}
+

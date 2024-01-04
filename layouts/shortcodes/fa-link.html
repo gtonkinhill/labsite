@@ -1,0 +1,3 @@
+<a href="{{ .Get "url" }}" target="_blank">
+    <i class="{{ with .Get "icon" }}{{ . }}{{ else }}fas fa-file-alt{{ end }}" style="color: {{ .Site.Params.style.vars.highlightColor }};"></i>
+</a>

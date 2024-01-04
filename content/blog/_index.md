@@ -1,5 +1,6 @@
 ---
 title: Blog
+hideTitle: true
 description: Mainroad theme documentation, including getting started, customization guides, and FAQ.
 authorbox: false
 sidebar: false

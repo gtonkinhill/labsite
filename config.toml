@@ -1,34 +1,39 @@
 baseurl = "/"
-title = "Computational Microbiology"
 languageCode = "en-au"
 paginate = "10" # Number of posts per page
 theme = "mainroad"
 disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 
+[Params.logo]
+  title = "Computational Microbiology"
+  subtitle = "Tonkin-Hill Lab" # Logo subtitle
+  image = "img/example_logo.png"
+
 [Author]
   name = "Gerry Tonkin-Hill"
-  bio = "John Doe's true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
-  avatar = "img/avatar.png"
+  bio = ""
 
 [Params]
   description = "Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" # Description of your site
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
-  authorbox = true
+  authorbox = false
   pager = false
-  post_meta = ["date", "categories"] # Order of post meta information
+  post_meta = ["author", "date", "categories"] # Order of post meta information
   mainSections = ["about", "team", "publications", "software", "blog"]
-  customCSS = ["css/custom.css"]
+  customCSS = ["css/custom.css", "css/software.css", "css/team.css"]
+  googleFontsLink = "https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap"
 
-[Params.logo]
-  subtitle = "Tonkin-Hill Lab" # Logo subtitle
+[Params.style.vars]
+  highlightColor =    "#B24C63" # "#a484cc" #  "#C71000FF" #  "#5B8266" # "#8136af" # "#B24C63" # "#C71000FF" # 
+  fontFamilyPrimary = "'Poppins', sans-serif"
 
 [Params.sidebar]
   home = false   # Configure layout for home page
-  list = "right"   # Configure layout for list pages
-  single = "right" # Configure layout for single pages
+  list = false   # Configure layout for list pages
+  single = false # Configure layout for single pages
   # Enable widgets in given order
   widgets = ["recent"] #"recent", "categories", "taglist"
 
@@ -37,3 +42,19 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
   tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
 
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'trac'
+    tabWidth = 4

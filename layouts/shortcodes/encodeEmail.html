@@ -1,0 +1,4 @@
+{{ $email := .Get 0 }}
+{{ range $index, $char := split $email "" }}
+    {{- printf "&#%d;" (int $char) -}}
+{{ end }}

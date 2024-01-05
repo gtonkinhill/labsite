@@ -1,28 +1,41 @@
 {{ define "main" }}
 <main class="main list" role="main">
     {{- if not .Params.hideTitle }}
-	{{- with .Title }}
-	<header class="main__header">
-		<h1 class="main__title">{{ . }}</h1>
-	</header>
-	{{- end }}
+    {{- with .Title }}
+    <header class="main__header">
+        <h1 class="main__title">{{ . }}</h1>
+    </header>
     {{- end }}
-	{{- with .Content }}
-	<div class="content main__content clearfix">
-		{{ . }}
-	</div>
-	{{- end }}
+    {{- end }}
+    {{- with .Content }}
+    <div class="content main__content clearfix">
+        {{ . }}
+    </div>
+    {{- end }}
     {{ range .Pages }}
     <div class="team-member">
-      <img class="team-photo" src="{{ .Params.image }}" alt="{{ .Title }}">
-      <div class="team-info">
-        <h2 class="team-name">{{ .Title }}</h2>
-        <h2 class="team-role">{{ .Params.role }}</h2>
-        <p class="team-bio">{{ .Content }}</p>
-      </div>
+        <div class="team-left">
+            <img class="team-photo" src="{{ .Params.image }}" alt="{{ .Title }}">
+            <h2 class="team-name">{{ .Title }}</h2>
+            <h3 class="team-role">{{ .Params.role }}</h3>
+            <div class="team-icons">
+              {{ range .Params.icons }}
+                  <a href="{{ .url }}" class="icon">
+                      <i class="{{ .icon }}"></i>
+                  </a>
+              {{ end }}
+              {{- if and .Params.emailUser .Params.emailDomain }}
+                  <a href="mailto:{{ .Params.emailUser | urlize }}&#64;{{ .Params.emailDomain | urlize }}" class="icon">
+                      <i class="fas fa-envelope"></i> <!-- FontAwesome envelope icon -->
+                  </a>
+              {{- end }}
+          </div>
+        </div>
+        <div class="team-info">
+            <p class="team-bio">{{ .Content }}</p>
+        </div>
     </div>
     {{ end }}
 </main>
 {{ partial "pagination.html" . }}
 {{ end }}
-

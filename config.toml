@@ -25,6 +25,9 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   mainSections = ["about", "team", "publications", "software", "blog"]
   customCSS = ["css/custom.css", "css/software.css", "css/team.css"]
   googleFontsLink = "https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap"
+  copyrightHolder = "Gerry Tonkin-Hill"
+  showPoweredBy = false
+  favicon = "favicon.ico"
 
 [Params.style.vars]
   highlightColor =    "#B24C63" # "#a484cc" #  "#C71000FF" #  "#5B8266" # "#8136af" # "#B24C63" # "#C71000FF" # 

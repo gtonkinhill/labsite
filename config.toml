@@ -8,14 +8,14 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 [Params.logo]
   title = "Computational Microbiology"
   subtitle = "Tonkin-Hill Lab" # Logo subtitle
-  image = "img/example_logo.png"
+  image = "img/chatgpt_logo_rpm.png"
 
 [Author]
   name = "Gerry Tonkin-Hill"
   bio = ""
 
 [Params]
-  description = "Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" # Description of your site
+  description = "Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" 
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
@@ -26,7 +26,7 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   customCSS = ["css/custom.css", "css/software.css", "css/team.css"]
   googleFontsLink = "https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap"
   copyrightHolder = "Gerry Tonkin-Hill"
-  showPoweredBy = false
+  showPoweredBy = true
   favicon = "favicon.ico"
 
 [Params.style.vars]

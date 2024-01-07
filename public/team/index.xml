@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Team on Computational Microbiology</title>
+    <title>People on </title>
     <link>/team/</link>
-    <description>Recent content in Team on Computational Microbiology</description>
+    <description>Recent content in People on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language><atom:link href="/team/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -12,7 +12,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/team/gerry-bio/</guid>
-      <description>This is a short bio</description>
+      <description>Dr Tonkin-Hill’s research at the University of Oslo focuses on the development and application of statistical and computational methods to study the interactions between humans and microbes. Specifically, he is interested in how microbes evolve within and transmit between people and the impacts of pharmaceutical and surgical interventions. He has developed several popular computational tools to infer pathogen population structure, transmission networks and bacterial pangenomes. He has a Masters in Probability and Statistics and completed his PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute.</description>
     </item>
     
     <item>
@@ -21,7 +21,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/team/sudaraka-bio/</guid>
-      <description></description>
+      <description>Dr Tonkin-Hill’s research at the University of Oslo focuses on the development and application of statistical and computational methods to study the interactions between humans and microbes. Specifically, he is interested in how microbes evolve within and transmit between people and the impacts of pharmaceutical and surgical interventions. He has developed several popular computational tools to infer pathogen population structure, transmission networks and bacterial pangenomes. He has a Masters in Probability and Statistics and completed his PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute.</description>
     </item>
     
   </channel>

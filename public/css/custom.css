@@ -1,81 +1,16 @@
-.team-member {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    padding: 20px;
-    border-bottom: 1px solid #eaeaea; /* Light line for separation */
-    margin-bottom: 20px; /* Spacing between entries */
+{{- $highlightColor := .Site.Params.style.vars.highlightColor | default (.Site.Params.highlightColor | default "#e22d30") -}}
+
+body {
+    font-size: 16px; /* Set the base font size */
   }
-  
-  .team-photo {
-    width: 120px; /* Adjust the size as needed */
-    height: 120px;
-    border-radius: 50%;
-    margin-bottom: 10px; /* Space between photo and text */
-  }
-  
-  .team-name {
-    font-size: 24px; /* Larger font size for the name */
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-  }
-  
-  .team-role {
-    font-size: 18px; /* Slightly smaller font size for the role */
-    color: #666;
-    margin: 0;
-  }
-  
-  .team-bio {
-    font-size: 14px; /* Smaller font size for the bio */
-    color: #666;
-    margin-top: 10px; /* Space above the bio */
-  }
-  
-  .team-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  /* Additional info styling */
-  .team-info a {
-    color: #1a0dab; /* Link color */
-    text-decoration: none;
-  }
-  
-  .team-info a:hover {
-    text-decoration: underline;
-  }
-  
-  .team-info .contact-info {
-    margin-top: 5px; /* Space between bio and contact info */
-  }
-  
-  .team-info .contact-info span {
-    display: block; /* Each piece of contact info on a new line */
-    margin-bottom: 2px; /* Space between contact info lines */
-  }
-  
-  /* Adjustments for mobile views */
-  @media (max-width: 768px) {
-    .team-photo {
-      width: 80px; /* Smaller photo on mobile */
-      height: 80px;
-    }
-  
-    .team-name {
-      font-size: 20px;
-    }
-  
-    .team-role {
-      font-size: 16px;
-    }
-  
-    .team-bio {
-      font-size: 12px;
-    }
-  }
-  
+
+.gist .gist-meta { display:none; border:none; outline:none;}
+
+/* Ensuring higher specificity and using !important to override default styles */
+code, pre {
+    font-size: 12px; /* Replace with your desired font size */
+}
+
+.fa, .fas, .far {
+  color: {{ $highlightColor }};
+}

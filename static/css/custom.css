@@ -14,3 +14,8 @@ code, pre {
 .fa, .fas, .far {
   color: {{ $highlightColor }};
 }
+
+.logo--mixed .logo__img {
+	max-width: 110px;
+	max-height: 110px;
+}

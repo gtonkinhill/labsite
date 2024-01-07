@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Computational Microbiology</title>
+    <title></title>
     <link>/</link>
-    <description>Recent content on Computational Microbiology</description>
+    <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Sun, 03 Sep 2023 21:52:01 +1000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
       <link>/about/</link>
@@ -18,30 +18,80 @@ Research Themes Microbiome and cancer Within-host evolution of pathogens Computa
     </item>
     
     <item>
+      <title>Panaroo</title>
+      <link>/software/panaroo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/software/panaroo/</guid>
+      <description>An error aware pipeline for pangenome investigation</description>
+    </item>
+    
+    <item>
+      <title>Fastbaps</title>
+      <link>/software/fastbaps/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/software/fastbaps/</guid>
+      <description>Fastbaps is a fast solution to the genetic clustering problem. It rapidly identifies an approximate fit to a Dirichlet process mixture model (DPM) for clustering multilocus genotype data. Our efficient model-based clustering approach clusters datasets 10–100 times larger than the existing model-based methods.</description>
+    </item>
+    
+    <item>
+      <title>Panstripe</title>
+      <link>/software/panstripe/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/software/panstripe/</guid>
+      <description>Robust analysis of prokaryotic pangenome gene gain and loss rates</description>
+    </item>
+    
+    <item>
+      <title>Pairsnp</title>
+      <link>/software/pairsnp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/software/pairsnp/</guid>
+      <description>Pairsnp is used to quickly obtain pairwise SNP distance matrices from multiple sequence alignments. For larger alignments, pairsnp is an order of magnitude faster than approaches based on pairwise comparison of every site.</description>
+    </item>
+    
+    <item>
       <title>Publications</title>
       <link>/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/publications/</guid>
-      <description></description>
+      <description>This selected list of publications is updated occasionally. A full list can be found on Google Scholar or Orcid.
+* = joint authorship
+Tonkin-Hill, G., Gladstone, RA., Pontinen, AK., Arredondo-Alonso, S., &amp;amp; &amp;hellip; (2023). Robust analysis of prokaryotic pangenome gene gain and loss rates with Panstripe. Genome research. Tonkin-Hill, G., Ling, C., Chaguza, C., Salter, SJ., Hinfonthong, P., Nikolaou, E., &amp;amp; &amp;hellip; (2022). Pneumococcal within-host diversity during colonisation, transmission and treatment.</description>
     </item>
     
     <item>
-      <title>Software</title>
-      <link>/software/</link>
-      <pubDate>Tue, 25 Jan 2022 14:00:00 +0000</pubDate>
+      <title>RhierBAPS</title>
+      <link>/software/rhierbaps/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/</guid>
-      <description></description>
+      <guid>/software/rhierbaps/</guid>
+      <description>An R implementation of hierBAPS, a popular algorithm for identifying population structure in haploid genomes.</description>
     </item>
     
     <item>
-      <title>First Post</title>
-      <link>/blog/first-post/</link>
-      <pubDate>Sun, 03 Sep 2023 21:52:01 +1000</pubDate>
+      <title>Supervised normalisation can bias microbiome analyses</title>
+      <link>/blog/tcga-post/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>/blog/first-post/</guid>
-      <description>test</description>
+      <guid>/blog/tcga-post/</guid>
+      <description>Update 10/08/2023 Dr Sepich-Poore has raised some important points in an issue posted to GitHub here.
+I’d like to start by thanking Dr Sepich-Poore for highlighting these issues and providing constructive feedback. I also wish to emphasize that the analysis in my blog doesn’t definitively determine the presence or absence of a cancer-specific microbial signature in the TCGA data; rather, it emphasises the importance of normalisation in microbiome studies.
+The first important point raised by Dr Sepich-Poore, is that the use of Supervised Normalisation in the original TCGA paper did not include cancer type as the biological variable of interest.</description>
+    </item>
+    
+    <item>
+      <title>How many gene annotations are there?</title>
+      <link>/blog/how-many-genes/</link>
+      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/how-many-genes/</guid>
+      <description>Grace Blackwell recently gave a really interesting talk on her work generating a standardised and curated database of 661,405 bacterial genome assemblies using read data retrieved from the European Nucleotide Archive (ENA).
+This dataset is already proving to be very useful. Grace has plans to generate gene annotations for the assemblies but was still deciding on the best approach for doing this in a standardised way across the very diverse dataset.</description>
     </item>
     
     <item>
@@ -50,7 +100,7 @@ Research Themes Microbiome and cancer Within-host evolution of pathogens Computa
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/team/gerry-bio/</guid>
-      <description>This is a short bio</description>
+      <description>Dr Tonkin-Hill’s research at the University of Oslo focuses on the development and application of statistical and computational methods to study the interactions between humans and microbes. Specifically, he is interested in how microbes evolve within and transmit between people and the impacts of pharmaceutical and surgical interventions. He has developed several popular computational tools to infer pathogen population structure, transmission networks and bacterial pangenomes. He has a Masters in Probability and Statistics and completed his PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute.</description>
     </item>
     
     <item>
@@ -59,7 +109,7 @@ Research Themes Microbiome and cancer Within-host evolution of pathogens Computa
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/team/sudaraka-bio/</guid>
-      <description></description>
+      <description>Dr Tonkin-Hill’s research at the University of Oslo focuses on the development and application of statistical and computational methods to study the interactions between humans and microbes. Specifically, he is interested in how microbes evolve within and transmit between people and the impacts of pharmaceutical and surgical interventions. He has developed several popular computational tools to infer pathogen population structure, transmission networks and bacterial pangenomes. He has a Masters in Probability and Statistics and completed his PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute.</description>
     </item>
     
   </channel>

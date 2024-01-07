@@ -4,15 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Software - Computational Microbiology</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+	<title>Software - </title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Software" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/software/" /><meta property="article:section" content="" />
-<meta property="article:published_time" content="2022-01-25T14:00:00+00:00" />
-<meta property="article:modified_time" content="2022-01-25T14:00:00+00:00" />
+<meta property="og:description" content="Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/software/" />
 
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -20,9 +19,14 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap">
 
 	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/software.css"><link rel="stylesheet" href="/css/team.css">
+	<link rel="alternate" type="application/rss+xml" href="/software/index.xml" title="">
 
-	<link rel="shortcut icon" href="/favicon.ico">
+	
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 		
 </head>
 <body class="body">
@@ -30,9 +34,11 @@
 		<header class="header">
 	<div class="container header__container">
 		
-	<div class="logo">
+	<div class="logo logo--mixed">
 		<a class="logo__link" href="/" title="Computational Microbiology" rel="home">
-			<div class="logo__item logo__text">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/chatgpt_logo_rpm.png">
+				</div><div class="logo__item logo__text">
 					<div class="logo__title">Computational Microbiology</div>
 					<div class="logo__tagline">Tonkin-Hill Lab</div>
 				</div>
@@ -54,14 +60,7 @@
 		<li class="menu__item">
 			<a class="menu__link" href="/team/">
 				
-				<span class="menu__text">Team</span>
-				
-			</a>
-		</li>
-		<li class="menu__item">
-			<a class="menu__link" href="/publications/">
-				
-				<span class="menu__text">Publications</span>
+				<span class="menu__text">People</span>
 				
 			</a>
 		</li>
@@ -69,6 +68,13 @@
 			<a class="menu__link" href="/software/">
 				
 				<span class="menu__text">Software</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/publications/">
+				
+				<span class="menu__text">Publications</span>
 				
 			</a>
 		</li>
@@ -87,32 +93,135 @@
 		<div class="wrapper flex">
 			<div class="primary">
 			
-<main class="main" role="main">
-	<article class="post">
-		<header class="post__header">
-			<h1 class="post__title">Software</h1>
-			<div class="post__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-01-25T14:00:00Z">January 25, 2022</time></div></div>
-		</header>
-		<div class="content post__content clearfix">
-			
-		</div>
-	</article>
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Software</h1>
+	</header>
+    
+    <div class="software-member">
+      <img class="software-photo" src="/img/software/panaroo.png" alt="Panaroo">
+      <div class="software-info">
+        <h2 class="software-name">Panaroo</h2>
+        <p class="software-summary"><p>An error aware pipeline for pangenome investigation</p>
+</p>
+        <div class="software-links">
+          
+          
+          <a href="https://github.com/gtonkinhill/panaroo/" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          
+          
+          
+          <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02090-4" class="manuscript-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-file-alt"></i> Manuscript
+          </a>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="software-member">
+      <img class="software-photo" src="/img/software/fastbaps.jpeg" alt="Fastbaps">
+      <div class="software-info">
+        <h2 class="software-name">Fastbaps</h2>
+        <p class="software-summary"><p>Fastbaps is a fast solution to the genetic clustering problem. It rapidly identifies an approximate fit to a Dirichlet process mixture model (DPM) for clustering multilocus genotype data. Our efficient model-based clustering approach clusters datasets 10–100 times larger than the existing model-based methods.</p>
+</p>
+        <div class="software-links">
+          
+          
+          <a href="https://github.com/gtonkinhill/fastbaps/" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          
+          
+          
+          <a href="https://doi.org/10.1093/nar/gkz361" class="manuscript-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-file-alt"></i> Manuscript
+          </a>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="software-member">
+      <img class="software-photo" src="/img/software/panstripe.png" alt="Panstripe">
+      <div class="software-info">
+        <h2 class="software-name">Panstripe</h2>
+        <p class="software-summary"><p>Robust analysis of prokaryotic pangenome gene gain and loss rates</p>
+</p>
+        <div class="software-links">
+          
+          
+          <a href="https://github.com/gtonkinhill/panstripe/" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          
+          
+          
+          <a href="https://doi.org/10.1101/gr.277340.122" class="manuscript-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-file-alt"></i> Manuscript
+          </a>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="software-member">
+      <img class="software-photo" src="/img/software/pairsnp.png" alt="Pairsnp">
+      <div class="software-info">
+        <h2 class="software-name">Pairsnp</h2>
+        <p class="software-summary"><p>Pairsnp is used to quickly obtain pairwise SNP distance matrices from multiple sequence alignments. For larger alignments, pairsnp is an order of magnitude faster than approaches based on pairwise comparison of every site.</p>
+</p>
+        <div class="software-links">
+          
+          
+          <a href="https://github.com/gtonkinhill/pairsnp-cpp" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          
+          
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="software-member">
+      <img class="software-photo" src="/img/software/rhierbaps.png" alt="RhierBAPS">
+      <div class="software-info">
+        <h2 class="software-name">RhierBAPS</h2>
+        <p class="software-summary"><p>An R implementation of hierBAPS, a popular algorithm for identifying population structure in haploid genomes.</p>
+</p>
+        <div class="software-links">
+          
+          
+          <a href="https://github.com/gtonkinhill/rhierbaps/" class="repo-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> Code
+          </a>
+          
+          
+          
+          <a href="https://doi.org/10.12688%2Fwellcomeopenres.14694.1" class="manuscript-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-file-alt"></i> Manuscript
+          </a>
+          
+        </div>
+      </div>
+    </div>
+    
 </main>
-
-
 
 
 			</div>
 			
+
 		</div>
 		<footer class="footer">
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2024 Computational Microbiology.
-			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+			&copy; 2024 .
+			<span class="footer__copyright-credits">Gerry Tonkin-Hill. Generated with Hugo and the Mainroad theme.</span>
 		</div>
 	</div>
 </footer>

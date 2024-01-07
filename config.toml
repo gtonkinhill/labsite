@@ -8,7 +8,7 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 [Params.logo]
   title = "Computational Microbiology"
   subtitle = "Tonkin-Hill Lab" # Logo subtitle
-  image = "img/chatgpt_logo_rpm.png"
+  image = "img/lab_logo.png"
 
 [Author]
   name = "Gerry Tonkin-Hill"

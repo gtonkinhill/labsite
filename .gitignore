@@ -1,0 +1,18 @@
+# Hugo generated files
+/public/
+/resources/_gen/
+/hugo_stats.json
+
+# Dependency directories
+/node_modules/
+
+# OS generated files
+.DS_Store
+*.DS_Store
+Thumbs.db
+
+# Ignore specific files that may contain sensitive information
+.env
+
+# Ignore any custom files specific to your environment
+# Add them below

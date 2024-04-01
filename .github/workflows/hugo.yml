@@ -51,7 +51,7 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL "https://gtonkinhill.github.io/"
             
       - name: Verify public directory
         run: ls -lah public/

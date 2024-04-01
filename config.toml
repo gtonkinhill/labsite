@@ -1,4 +1,3 @@
-baseurl = "/"
 languageCode = "en-au"
 paginate = "10" # Number of posts per page
 theme = "mainroad"

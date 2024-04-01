@@ -2,82 +2,82 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>/</link>
+    <link>https://gtonkinhill.github.io/</link>
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gtonkinhill.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>/about/</link>
+      <link>https://gtonkinhill.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/about/</guid>
+      <guid>https://gtonkinhill.github.io/about/</guid>
       <description>Based at the Peter MacCallum Cancer Center and the Peter Doherty Institute for Infection and Immunity in Melbourne, Australia, the Computational Microbiology group, led by Gerry Tonkin-Hill, works closely with clinical and wet-lab collaborators to improve our understanding of how microbes evolve, transmit between and interact with their hosts.
 These microbial interactions play a critical role in our health and can have profound impacts on the treatment of both infectious and non-infectious diseases, including cancer.</description>
     </item>
     
     <item>
       <title>Panaroo</title>
-      <link>/software/panaroo/</link>
+      <link>https://gtonkinhill.github.io/software/panaroo/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/panaroo/</guid>
+      <guid>https://gtonkinhill.github.io/software/panaroo/</guid>
       <description>An error aware pipeline for pangenome investigation</description>
     </item>
     
     <item>
       <title>Research</title>
-      <link>/research/</link>
+      <link>https://gtonkinhill.github.io/research/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/research/</guid>
+      <guid>https://gtonkinhill.github.io/research/</guid>
       <description>Computational and statistical methods The size of microbial genomics and metagenomic datasets is rapidly increasing. We develop highly scalable statistical and machine learning algorithms to analyse these datasets efficiently. Key areas of interest include:
 Transmission inference Linking genotype to phenotype Pangenomics Phylodynamics and population structure Approximate Bayesian Computation and Likelihood Free Inference techniques Microbial evolution and host-microbe interactions The human microbiome consists of microorganisms, including pathogens and beneficial organisms, that mutate billions of times daily within each person.</description>
     </item>
     
     <item>
       <title>Fastbaps</title>
-      <link>/software/fastbaps/</link>
+      <link>https://gtonkinhill.github.io/software/fastbaps/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/fastbaps/</guid>
+      <guid>https://gtonkinhill.github.io/software/fastbaps/</guid>
       <description>Fastbaps is a fast solution to the genetic clustering problem. It rapidly identifies an approximate fit to a Dirichlet process mixture model (DPM) for clustering multilocus genotype data. Our efficient model-based clustering approach clusters datasets 10–100 times larger than the existing model-based methods.</description>
     </item>
     
     <item>
       <title>Panstripe</title>
-      <link>/software/panstripe/</link>
+      <link>https://gtonkinhill.github.io/software/panstripe/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/panstripe/</guid>
+      <guid>https://gtonkinhill.github.io/software/panstripe/</guid>
       <description>Robust analysis of prokaryotic pangenome gene gain and loss rates</description>
     </item>
     
     <item>
       <title>Pairsnp</title>
-      <link>/software/pairsnp/</link>
+      <link>https://gtonkinhill.github.io/software/pairsnp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/pairsnp/</guid>
+      <guid>https://gtonkinhill.github.io/software/pairsnp/</guid>
       <description>Pairsnp is used to quickly obtain pairwise SNP distance matrices from multiple sequence alignments. For larger alignments, pairsnp is an order of magnitude faster than approaches based on pairwise comparison of every site.</description>
     </item>
     
     <item>
       <title>RhierBAPS</title>
-      <link>/software/rhierbaps/</link>
+      <link>https://gtonkinhill.github.io/software/rhierbaps/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/software/rhierbaps/</guid>
+      <guid>https://gtonkinhill.github.io/software/rhierbaps/</guid>
       <description>An R implementation of hierBAPS, a popular algorithm for identifying population structure in haploid genomes.</description>
     </item>
     
     <item>
       <title>Supervised normalisation can bias microbiome analyses</title>
-      <link>/blog/tcga-post/</link>
+      <link>https://gtonkinhill.github.io/blog/tcga-post/</link>
       <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>/blog/tcga-post/</guid>
+      <guid>https://gtonkinhill.github.io/blog/tcga-post/</guid>
       <description>Update 10/08/2023 Dr Sepich-Poore has raised some important points in an issue posted to GitHub here.
 I’d like to start by thanking Dr Sepich-Poore for highlighting these issues and providing constructive feedback. I also wish to emphasize that the analysis in my blog doesn’t definitively determine the presence or absence of a cancer-specific microbial signature in the TCGA data; rather, it emphasises the importance of normalisation in microbiome studies.
 The first important point raised by Dr Sepich-Poore, is that the use of Supervised Normalisation in the original TCGA paper did not include cancer type as the biological variable of interest.</description>
@@ -85,29 +85,29 @@ The first important point raised by Dr Sepich-Poore, is that the use of Supervis
     
     <item>
       <title>How many gene annotations are there?</title>
-      <link>/blog/how-many-genes/</link>
+      <link>https://gtonkinhill.github.io/blog/how-many-genes/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>/blog/how-many-genes/</guid>
+      <guid>https://gtonkinhill.github.io/blog/how-many-genes/</guid>
       <description>Grace Blackwell recently gave a really interesting talk on her work generating a standardised and curated database of 661,405 bacterial genome assemblies using read data retrieved from the European Nucleotide Archive (ENA).
 This dataset is already proving to be very useful. Grace has plans to generate gene annotations for the assemblies but was still deciding on the best approach for doing this in a standardised way across the very diverse dataset.</description>
     </item>
     
     <item>
       <title>Gerry Tonkin-Hill</title>
-      <link>/team/gerry-bio/</link>
+      <link>https://gtonkinhill.github.io/team/gerry-bio/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/team/gerry-bio/</guid>
+      <guid>https://gtonkinhill.github.io/team/gerry-bio/</guid>
       <description>With a background in statistical and computational genomics, Gerry has developed highly used algorithms for analysing microbial genomics data. These algorithms have been applied to a wide range of microbes, including parasites, viruses, and bacteria. Prior to starting at Peter Mac, Gerry completed a PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute, followed by a postdoctoral fellowship at the Oslo Centre for Biostatistics and Epidemiology.</description>
     </item>
     
     <item>
       <title>Sudaraka Mallawaarachchi</title>
-      <link>/team/sudaraka-bio/</link>
+      <link>https://gtonkinhill.github.io/team/sudaraka-bio/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/team/sudaraka-bio/</guid>
+      <guid>https://gtonkinhill.github.io/team/sudaraka-bio/</guid>
       <description>Sudaraka received his B.Sc. (Eng.) from University of Moratuwa, Sri Lanka and worked as a Lecturer at the same institute for two years. He received his Ph.D (Eng.) from Monash University and started working as a Postdoctoral Research Fellow in statistical genetics at Melbourne Integrative Genomics (MIG), University of Melbourne. In 2022, he received a Marie Curie Fellowship to conduct research in computational pathogen genomics at the University of Oslo. His research interests are in genomics, data science, machine learning, computational physics and biomedical engineering.</description>
     </item>
     

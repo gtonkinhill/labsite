@@ -75,7 +75,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.DEPLOY_KEY }}  # Use the GitHub Token here
+          personal_token: ${{ secrets.DEPLOY_KEY }}  # Use the GitHub Token here
           publish_dir: ./gtonkinhill.github.io
           external_repository: gtonkinhill/gtonkinhill.github.io
           user_name: 'GitHub Actions'

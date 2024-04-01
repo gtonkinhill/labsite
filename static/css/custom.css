@@ -19,3 +19,9 @@ code, pre {
 	max-width: 120px;
 	max-height: 120px;
 }
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}

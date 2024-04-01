@@ -63,13 +63,15 @@ jobs:
           path: ./public
 
   # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout the gtonkinhill.github.io repository
+        uses: actions/checkout@v2
+        with:
+          repository: gtonkinhill/gtonkinhill.github.io
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          path: 'gtonkinhill.github.io'
+      
+      - name: Copy files

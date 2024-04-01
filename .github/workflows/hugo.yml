@@ -63,7 +63,7 @@ jobs:
           path: ./public
 
   # Deployment job
-   deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -75,3 +75,15 @@ jobs:
           path: 'gtonkinhill.github.io'
       
       - name: Copy files
+        run: |
+          cp -r public/* gtonkinhill.github.io/
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          publish_dir: ./gtonkinhill.github.io
+          external_repository: gtonkinhill/gtonkinhill.github.io
+          user_name: 'GitHub Actions'
+          user_email: 'github-actions@users.noreply.github.com'
+          commit_message: 'Deploy Hugo site update'

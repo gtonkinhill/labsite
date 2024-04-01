@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>People on </title>
+    <link>/team/</link>
+    <description>Recent content in People on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-au</language><atom:link href="/team/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gerry Tonkin-Hill</title>
+      <link>/team/gerry-bio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/team/gerry-bio/</guid>
+      <description>With a background in statistical and computational genomics, Gerry has developed highly used algorithms for analysing microbial genomics data. These algorithms have been applied to a wide range of microbes, including parasites, viruses, and bacteria. Prior to starting at Peter Mac, Gerry completed a PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute, followed by a postdoctoral fellowship at the Oslo Centre for Biostatistics and Epidemiology.</description>
+    </item>
+    
+    <item>
+      <title>Sudaraka Mallawaarachchi</title>
+      <link>/team/sudaraka-bio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/team/sudaraka-bio/</guid>
+      <description>Sudaraka received his B.Sc. (Eng.) from University of Moratuwa, Sri Lanka and worked as a Lecturer at the same institute for two years. He received his Ph.D (Eng.) from Monash University and started working as a Postdoctoral Research Fellow in statistical genetics at Melbourne Integrative Genomics (MIG), University of Melbourne. In 2022, he received a Marie Curie Fellowship to conduct research in computational pathogen genomics at the University of Oslo. His research interests are in genomics, data science, machine learning, computational physics and biomedical engineering.</description>
+    </item>
+    
+  </channel>
+</rss>

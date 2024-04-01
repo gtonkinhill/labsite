@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+	<title>How many gene annotations are there? - </title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="How many gene annotations are there?" />
+<meta property="og:description" content="Grace Blackwell recently gave a really interesting talk on her work generating a standardised and curated database of 661,405 bacterial genome assemblies using read data retrieved from the European Nucleotide Archive (ENA).
+This dataset is already proving to be very useful. Grace has plans to generate gene annotations for the assemblies but was still deciding on the best approach for doing this in a standardised way across the very diverse dataset." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/how-many-genes/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-06-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-01T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/software.css"><link rel="stylesheet" href="/css/team.css">
+
+	
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-114314394-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Computational Microbiology" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/lab_logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Computational Microbiology</div>
+					<div class="logo__tagline">Tonkin-Hill Lab</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/research/">
+				
+				<span class="menu__text">Research</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/team/">
+				
+				<span class="menu__text">People</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/software/">
+				
+				<span class="menu__text">Software</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="https://scholar.google.com/citations?user=rpyuABcAAAAJ&amp;hl">
+				
+				<span class="menu__text">Publications</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/blog/">
+				
+				<span class="menu__text">Blog</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		
+		<header class="post__header">
+			<h1 class="post__title">How many gene annotations are there?</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Gerry Tonkin-Hill</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-06">June 2021</time></div></div>
+		</header>
+		
+		<div class="content post__content clearfix">
+			<p><a href="https://scholar.google.com/citations?user=QhkA-dQAAAAJ&amp;hl=en&amp;oi=ao">Grace Blackwell</a> recently gave a really interesting talk on her <a href="https://www.biorxiv.org/content/10.1101/2021.03.02.433662v1.abstract">work</a> generating a standardised and curated database of 661,405 bacterial genome assemblies using read data retrieved from the European Nucleotide Archive (ENA).</p>
+<p>This dataset is already proving to be very <a href="https://www.biorxiv.org/content/10.1101/2021.06.09.447586v1">useful</a>. Grace has plans to generate gene annotations for the assemblies but was still deciding on the best approach for doing this in a standardised way across the very diverse dataset. We have run into this issue previously when developing <a href="https://gtonkinhill.github.io/panaroo/#/">panaroo</a>. It is possible to force annotation algorithms like <a href="https://github.com/hyattpd/prodigal">prodigal</a> to use the same annotation model for each assembly. This helps to prevent the scenario where the <em>exact</em> same nucleotide sequence is annotated differently in separate genome assemblies. While this generates more standardised annotations it could repeatedly generate the same errors so it is unclear whether this is a preferable approach to allowing the algorithm to adapt to each genome individually.</p>
+<p>In discussing this after her talk the question of how many possible annotations there are in a typical bacterial genome came up. As I did not have any intuition for this I thought it would be worth taking a quick look. Conveniently, prodigal has an output option <code>-s</code> that lists all possible annotations (after some rough <a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-119">filtering</a>).</p>
+<p>Taking a random <em>S. pneumoniae</em>, <em>M. tuberculosis</em> and <em>K. pneumoniae</em> genome assembly from the sets we used in the panaroo paper I ran prodigal using the <code>-s</code> option on each. I also ran the program excluding genes with N&rsquo;s or that overlapped the ends of contigs to see how much impact these sources of error had.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="font-weight:bold">for</span> f in *.fasta
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span><span style="color:#008080">prefix</span><span style="font-weight:bold">=</span><span style="font-weight:bold">$(</span>basename <span style="color:#008080">$f</span> .fasta<span style="font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>prodigal -i <span style="color:#008080">$f</span> -o <span style="color:#b84">${</span><span style="color:#008080">prefix</span><span style="color:#b84">}</span>.gff -s <span style="color:#b84">${</span><span style="color:#008080">prefix</span><span style="color:#b84">}</span>_all.txt -f gff
+</span></span><span style="display:flex;"><span>prodigal -i <span style="color:#008080">$f</span> -o <span style="color:#b84">${</span><span style="color:#008080">prefix</span><span style="color:#b84">}</span>_filt.gff -s <span style="color:#b84">${</span><span style="color:#008080">prefix</span><span style="color:#b84">}</span>_filt_all.txt -f gff -c -m 
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">done</span>
+</span></span></code></pre></div><p>We can then use a bit of python to count the number of annotations. I split this up to also count those that shared the same stop codon.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">import</span> <span style="color:#555">glob</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>counts <span style="font-weight:bold">=</span> {}
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">for</span> f <span style="font-weight:bold">in</span> glob<span style="font-weight:bold">.</span>glob(<span style="color:#b84">&#39;*_all.txt&#39;</span>):
+</span></span><span style="display:flex;"><span>  name <span style="font-weight:bold">=</span> f<span style="font-weight:bold">.</span>replace(<span style="color:#b84">&#39;_all.txt&#39;</span>, <span style="color:#b84">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>  annotations <span style="font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">with</span> <span style="color:#999">open</span>(f, <span style="color:#b84">&#39;r&#39;</span>) <span style="font-weight:bold">as</span> infile:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">for</span> line <span style="font-weight:bold">in</span> infile:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">if</span> line[<span style="color:#099">0</span>] <span style="font-weight:bold">in</span> [<span style="color:#b84">&#39;#&#39;</span>, <span style="color:#b84">&#39;B&#39;</span>, <span style="color:#b84">&#39;</span><span style="color:#b84">\n</span><span style="color:#b84">&#39;</span>]: <span style="font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>      line <span style="font-weight:bold">=</span> line<span style="font-weight:bold">.</span>split()
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">if</span> line[<span style="color:#099">2</span>]<span style="font-weight:bold">==</span><span style="color:#b84">&#39;-&#39;</span>:
+</span></span><span style="display:flex;"><span>        annotations<span style="font-weight:bold">.</span>append((line[<span style="color:#099">0</span>], <span style="color:#b84">&#39;-&#39;</span>))
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">else</span>:
+</span></span><span style="display:flex;"><span>        annotations<span style="font-weight:bold">.</span>append((line[<span style="color:#099">1</span>], <span style="color:#b84">&#39;+&#39;</span>))
+</span></span><span style="display:flex;"><span>  counts[name] <span style="font-weight:bold">=</span> [<span style="color:#999">str</span>(<span style="color:#999">len</span>(annotations)), <span style="color:#999">str</span>(<span style="color:#999">len</span>(<span style="color:#999">set</span>(annotations)))]
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">with</span> <span style="color:#999">open</span>(name <span style="font-weight:bold">+</span> <span style="color:#b84">&#39;.gff&#39;</span>, <span style="color:#b84">&#39;r&#39;</span>) <span style="font-weight:bold">as</span> infile:
+</span></span><span style="display:flex;"><span>    count <span style="font-weight:bold">=</span> <span style="color:#099">0</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">for</span> line <span style="font-weight:bold">in</span> infile:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">if</span> line[<span style="color:#099">0</span>]<span style="font-weight:bold">==</span><span style="color:#b84">&#39;#&#39;</span>: <span style="font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>      count <span style="font-weight:bold">+=</span> <span style="color:#099">1</span>
+</span></span><span style="display:flex;"><span>  counts[name]<span style="font-weight:bold">.</span>append(<span style="color:#999">str</span>(count))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">with</span> <span style="color:#999">open</span>(<span style="color:#b84">&#39;annotation_counts.csv&#39;</span>, <span style="color:#b84">&#39;w&#39;</span>) <span style="font-weight:bold">as</span> outfile:
+</span></span><span style="display:flex;"><span>  outfile<span style="font-weight:bold">.</span>write(<span style="color:#b84">&#39;species,all,same_start,final</span><span style="color:#b84">\n</span><span style="color:#b84">&#39;</span>)
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">for</span> name <span style="font-weight:bold">in</span> counts:
+</span></span><span style="display:flex;"><span>    outfile<span style="font-weight:bold">.</span>write(<span style="color:#b84">&#39;,&#39;</span><span style="font-weight:bold">.</span>join([name]<span style="font-weight:bold">+</span><span style="color:#999">list</span>(counts[name])) <span style="font-weight:bold">+</span> <span style="color:#b84">&#39;</span><span style="color:#b84">\n</span><span style="color:#b84">&#39;</span>)
+</span></span></code></pre></div><p>We can then plot the final counts using ggplot</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(data.table)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">fread</span>(<span style="color:#b84">&#34;~/Downloads/annotation_counts.csv&#34;</span>, data.table<span style="font-weight:bold">=</span><span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span>counts<span style="font-weight:bold">$</span>filtered <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ifelse</span>(<span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#b84">&#39;*filt&#39;</span>, counts<span style="font-weight:bold">$</span>species), 
+</span></span><span style="display:flex;"><span>                          <span style="color:#b84">&#39;without closed ends&#39;</span>, <span style="color:#b84">&#39;with closed ends&#39;</span>)
+</span></span><span style="display:flex;"><span>counts<span style="font-weight:bold">$</span>species <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#39;_filt&#39;</span>, <span style="color:#b84">&#39;&#39;</span>, counts<span style="font-weight:bold">$</span>species)
+</span></span><span style="display:flex;"><span>plotdf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">melt</span>(counts)
+</span></span><span style="display:flex;"><span>plotdf<span style="font-weight:bold">$</span>species<span style="color:#900;font-weight:bold">[grepl</span>(<span style="color:#b84">&#39;k&#39;</span>, plotdf<span style="font-weight:bold">$</span>species)] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#39;K. pneumoniae&#39;</span>
+</span></span><span style="display:flex;"><span>plotdf<span style="font-weight:bold">$</span>species<span style="color:#900;font-weight:bold">[grepl</span>(<span style="color:#b84">&#39;s&#39;</span>, plotdf<span style="font-weight:bold">$</span>species)] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#39;S. pneumoniae&#39;</span>
+</span></span><span style="display:flex;"><span>plotdf<span style="font-weight:bold">$</span>species<span style="color:#900;font-weight:bold">[grepl</span>(<span style="color:#b84">&#39;tb&#39;</span>, plotdf<span style="font-weight:bold">$</span>species)] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#39;M. tuberculosis&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(plotdf, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>species, y<span style="font-weight:bold">=</span>value, fill<span style="font-weight:bold">=</span>species)) <span style="font-weight:bold">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_col</span>() <span style="font-weight:bold">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">facet_grid</span>(variable<span style="font-weight:bold">~</span>filtered) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">16</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_sqrt</span>(labels <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">function</span>(x) <span style="color:#900;font-weight:bold">format</span>(
+</span></span><span style="display:flex;"><span>    x, scientific <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, digits<span style="font-weight:bold">=</span><span style="color:#099">1</span>, trim<span style="font-weight:bold">=</span><span style="font-weight:bold">TRUE</span>),
+</span></span><span style="display:flex;"><span>                     breaks <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1e4</span>,<span style="color:#099">1e5</span>)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(axis.title.x<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>(),
+</span></span><span style="display:flex;"><span>        axis.text.x<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>(),
+</span></span><span style="display:flex;"><span>        axis.ticks.x<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>()) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">xlab</span>(<span style="color:#b84">&#34;&#34;</span>) <span style="font-weight:bold">+</span> <span style="color:#900;font-weight:bold">ylab</span>(<span style="color:#b84">&#34;annotation count&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/how-many-genes/annotation_counts.png" alt="Annotation counts" style="margin: 0 auto; display: block;">
+</div>
+
+<p>Overall it looks like there are around an order of magnitude more potential stop sites than the final list of genes output by prodigal. If we instead include the number of possible start sides for each stop site we find a further order of magnitude increase in the number of possible annotations. This is quite large and underscores the challenge of automatic gene annotation and the potential for small algorithmic decisions to have large consequences.</p>
+<p>The exact number of annotations including those that overlap with contig ends is given in the following table.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Species</th>
+<th style="text-align:center">All</th>
+<th style="text-align:center">Same stop codon</th>
+<th style="text-align:center">Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>K. pneumoniae</em></td>
+<td style="text-align:center">234,325</td>
+<td style="text-align:center">31,006</td>
+<td style="text-align:center">5,791</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>M. tuberculosis</em></td>
+<td style="text-align:center">246,940</td>
+<td style="text-align:center">45,640</td>
+<td style="text-align:center">4,044</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>S. pneumoniae</em></td>
+<td style="text-align:center">74,255</td>
+<td style="text-align:center">17,242</td>
+<td style="text-align:center">2,184</td>
+</tr>
+</tbody>
+</table>
+<p>Looking at the same table after excluding genes annotated at contig ends or across N&rsquo;s we see that this has a small but not insignificant impact. In fact, we have previously found that the accumulation of these differences over many genomes can lead to <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02090-4">large</a> differences in pangenome inference.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Species</th>
+<th style="text-align:center">All</th>
+<th style="text-align:center">Same stop codon</th>
+<th style="text-align:center">Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>K. pneumoniae</em></td>
+<td style="text-align:center">220,963</td>
+<td style="text-align:center">30,463</td>
+<td style="text-align:center">5,351</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>M. tuberculosis</em></td>
+<td style="text-align:center">244,993</td>
+<td style="text-align:center">45,484</td>
+<td style="text-align:center">4,047</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>S. pneumoniae</em></td>
+<td style="text-align:center">73,552</td>
+<td style="text-align:center">17,163</td>
+<td style="text-align:center">2,147</td>
+</tr>
+</tbody>
+</table>
+<!-- <script src="https://gist.github.com/gtonkinhill/59943ac73aa267900e63d07f1ba862de.js"></script> -->
+
+		</div>
+	</article>
+</main>
+
+
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 .
+			<span class="footer__copyright-credits">Gerry Tonkin-Hill. Generated with Hugo and the Mainroad theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

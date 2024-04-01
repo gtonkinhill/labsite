@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+	<title>Supervised normalisation can bias microbiome analyses - </title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Supervised normalisation can bias microbiome analyses" />
+<meta property="og:description" content="Update 10/08/2023 Dr Sepich-Poore has raised some important points in an issue posted to GitHub here.
+I’d like to start by thanking Dr Sepich-Poore for highlighting these issues and providing constructive feedback. I also wish to emphasize that the analysis in my blog doesn’t definitively determine the presence or absence of a cancer-specific microbial signature in the TCGA data; rather, it emphasises the importance of normalisation in microbiome studies.
+The first important point raised by Dr Sepich-Poore, is that the use of Supervised Normalisation in the original TCGA paper did not include cancer type as the biological variable of interest." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/tcga-post/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-08-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-08-01T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/software.css"><link rel="stylesheet" href="/css/team.css">
+
+	
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-114314394-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Computational Microbiology" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/lab_logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Computational Microbiology</div>
+					<div class="logo__tagline">Tonkin-Hill Lab</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/research/">
+				
+				<span class="menu__text">Research</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/team/">
+				
+				<span class="menu__text">People</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/software/">
+				
+				<span class="menu__text">Software</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="https://scholar.google.com/citations?user=rpyuABcAAAAJ&amp;hl">
+				
+				<span class="menu__text">Publications</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/blog/">
+				
+				<span class="menu__text">Blog</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		
+		<header class="post__header">
+			<h1 class="post__title">Supervised normalisation can bias microbiome analyses</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Gerry Tonkin-Hill</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2023-08">August 2023</time></div></div>
+		</header>
+		
+		<div class="content post__content clearfix">
+			<h3 id="update-10082023">Update 10/08/2023</h3>
+<p>Dr Sepich-Poore has raised some important points in an issue posted to
+GitHub <a href="https://github.com/gtonkinhill/TCGA_analysis/issues/2">here</a>.</p>
+<p>I’d like to start by thanking Dr Sepich-Poore for highlighting these
+issues and providing constructive feedback. I also wish to emphasize
+that the analysis in my blog doesn’t definitively determine the presence
+or absence of a cancer-specific microbial signature in the TCGA data;
+rather, it emphasises the importance of normalisation in microbiome
+studies.</p>
+<p>The first important point raised by Dr Sepich-Poore, is that the use of
+Supervised Normalisation in the original TCGA paper did <strong>not</strong> include
+cancer type as the biological variable of interest.</p>
+<p>Rather, <strong>sample type</strong> (Primary Tumor, Blood Derived Normal, Solid
+Tissue Normal etc) was used as the biological variable. The use of this
+variable is less likely to bias the results towards cancer type specific
+signatures.</p>
+<p>However, although there are fewer variables in the <em>sample type</em>
+category, it still correlates strongly with a number of the unwanted
+variables. We can get a rough idea of this correlation using logistic
+regression.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_data <span style="font-weight:bold">&lt;-</span> readr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/tcga_metadata_poore_et_al_2020_1Aug23.csv&#34;</span>)
+</span></span><span style="display:flex;"><span>meta_extra <span style="font-weight:bold">&lt;-</span> readr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/Metadata-TCGA-All-18116-Samples.csv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(meta_extra)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>gender <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>gender<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>platform <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>platform<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>portion_ffpe <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>portion_is_ffpe<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>experimental_strategy <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>experimental_strategy<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>tissue_source_site_label <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>tissue_source_site_label<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>variable_correlation <span style="font-weight:bold">&lt;-</span> purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map_dfr</span>(<span style="color:#900;font-weight:bold">unique</span>(meta_data<span style="font-weight:bold">$</span>sample_type), <span style="font-weight:bold">~</span>{
+</span></span><span style="display:flex;"><span>  m <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">glm</span>(sample_type<span style="font-weight:bold">==</span>.x <span style="font-weight:bold">~</span> data_submitting_center_label<span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>                               platform <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>                               experimental_strategy <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>                               tissue_source_site_label <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>                               portion_ffpe, data <span style="font-weight:bold">=</span> meta_data, family <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;binomial&#34;</span>)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">if </span>(<span style="font-weight:bold">!</span>m<span style="font-weight:bold">$</span>converged) <span style="color:#900;font-weight:bold">return</span>(<span style="font-weight:bold">NULL</span>)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">return</span>(broom<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">tidy</span>(m) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">add_column</span>(sample_type<span style="font-weight:bold">=</span>.x, .before<span style="font-weight:bold">=</span><span style="color:#099">1</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">filter</span>(term<span style="font-weight:bold">!=</span><span style="color:#b84">&#34;(Intercept)&#34;</span>))
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>variable_correlation<span style="font-weight:bold">$</span>term <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;tissue_source_site_label&#34;</span>, <span style="color:#b84">&#34;source_site:&#34;</span>, variable_correlation<span style="font-weight:bold">$</span>term)
+</span></span><span style="display:flex;"><span>variable_correlation<span style="font-weight:bold">$</span>term <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;data_submitting_center_label&#34;</span>, <span style="color:#b84">&#34;center_label:&#34;</span>, variable_correlation<span style="font-weight:bold">$</span>term)
+</span></span><span style="display:flex;"><span>variable_correlation <span style="font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">filter</span>(p.value <span style="font-weight:bold">&lt;</span> <span style="color:#099">1e-6</span>)
+</span></span></code></pre></div><pre><code>## # A tibble: 17 × 6
+##    sample_type         term                estimate std.error statistic  p.value
+##    &lt;chr&gt;               &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Primary Tumor       experimental_strat…   -2.64      0.234    -11.3  1.81e-29
+##  2 Primary Tumor       source_site:Cedars…    1.50      0.297      5.05 4.42e- 7
+##  3 Primary Tumor       source_site:Duke       1.33      0.263      5.05 4.36e- 7
+##  4 Primary Tumor       source_site:Essen     -4.49      0.751     -5.97 2.38e- 9
+##  5 Primary Tumor       source_site:ILSbio     1.44      0.262      5.49 4.07e- 8
+##  6 Primary Tumor       source_site:Indivu…    1.10      0.222      4.95 7.57e- 7
+##  7 Primary Tumor       source_site:Memori…    1.38      0.236      5.83 5.40e- 9
+##  8 Primary Tumor       source_site:MSKCC      1.32      0.240      5.50 3.87e- 8
+##  9 Primary Tumor       source_site:Roswell   -2.73      0.544     -5.02 5.17e- 7
+## 10 Solid Tissue Normal center_label:Harva…   -0.722     0.139     -5.19 2.12e- 7
+## 11 Solid Tissue Normal source_site:Henry …   -2.85      0.500     -5.69 1.24e- 8
+## 12 Solid Tissue Normal source_site:Memori…   -5.38      1.02      -5.26 1.47e- 7
+## 13 Solid Tissue Normal source_site:MSKCC     -1.46      0.253     -5.75 8.71e- 9
+## 14 Metastatic          source_site:Essen      4.73      0.568      8.33 8.03e-17
+## 15 Metastatic          source_site:Roswell    4.26      0.634      6.73 1.75e-11
+## 16 Metastatic          source_site:Univer…    5.02      0.548      9.15 5.71e-20
+## 17 Metastatic          source_site:Yale       4.79      0.603      7.95 1.85e-15
+</code></pre>
+<p>Consequently, while not conclusively demonstrated here, it’s possible
+that the SNM algorithm might exaggerate differences between cancer and
+normal samples. This, combined with a body site-specific microbiota,
+could result in a cancer-specific signal.</p>
+<p>A second concern raised was the potential that using normal-tissue
+samples as controls could obscure genuine signals, especially if
+cancer-specific bacteria are present in both cancer and normal tissue
+types, as indicated in <a href="https://www.science.org/doi/10.1126/science.aay9189">Nejman et al.,
+2020</a>.</p>
+<p>This is something we agree on, and a limitation of the TCGA study
+design. Ideally, normal tissue samples from patients without cancer
+would be used for normalisation.</p>
+<p>Lastly, Dr Sepich-Poore observed that while accounting for hospital
+seemed to have a significant impact on the normalisation of read counts
+produced by Gihawi et al., samples from each hospital still appeared to
+cluster by cancer type. This is a really interesting point.</p>
+<p>My initial guess, is this depends on how well body site effects have
+been controlled for, which, as I’ve noted, is challenging to do. When I
+applied the SCRuB algorithm to the original unfiltered counts to remove
+body site-specific effects, the samples no longer clustered by cancer
+type. This was prior to removing hospital associated effects.</p>
+<p>Conversely, SCRuB had less of an impact on the filtered read counts from
+the Gihawi et al. This could be attributed to fewer non-zero counts in
+this dataset, potentially diminishing the power of the SCRuB algorithm.
+Or, it might indicate a cancer-specific microbial signature that wasn’t
+prominent enough to be discerned after accounting for the hospital site
+using the <code>removeBatchEffect</code> function.</p>
+<p>The primary aim of this blog post was to emphasise the subtleties and
+significance of selecting the right normalisation method. In the future,
+I believe that emerging datasets and research will further clarify our
+understanding of the microbes linked to cancer.</p>
+<hr>
+<h3 id="main-text">Main text</h3>
+<p>Supervised Normalisation, which uses the variable of interest as an
+input for batch correction, is becoming increasingly popular in
+microbiome studies. In particular, Supervised Normalisation for
+Microarrays (SNM)—a method initially designed for microarray data
+analysis—has been used to account for batch effects in microbiome count
+data, including in several <a href="https://scholar.google.com/scholar?start=0&amp;q=microbiome&amp;hl=en&amp;as_sdt=2005&amp;sciodt=0,5&amp;cites=3498151677715806398&amp;scipsc=1">high-profile
+papers</a>.</p>
+<p>A challenge in using these methods for microbiome data analysis is their
+reliance on careful study designs to separate the variable of interest
+from undesired batch effects. While such designs are prevalent in gene
+expression studies, they’re infrequent in microbiome studies, where
+samples are typically collected out of convenience.</p>
+<p>A nice review of the challenges and methods for accounting for batch
+effects in microbiome data is given in <a href="https://doi.org/10.1093/bib/bbz105">Wang and LêCao,
+2019</a>.</p>
+<p>To investigate how suitable the SNM approach is to imperfect study
+designs, I have simulated artificial microbiome data and re-analysed
+microbiome count data from multiple publications that investigated
+microbial signatures associated with cancer using The Cancer Genome
+Atlas (TCGA) data set which considers 33 types of cancer.</p>
+<p>If you are interested in the discussion around this data set, the
+original publication in Nature is
+<a href="https://www.nature.com/articles/s41586-020-2095-1">here</a>. Several
+preprints on bioRxiv have highlighted possible concerns with the
+analysis, accompanied by rebuttals from the original paper’s authors.
+These can be accessed at the following links: <a href="https://www.biorxiv.org/content/10.1101/2023.01.16.523562v1.full.pdf">preprint
+1</a>,
+<a href="https://www.biorxiv.org/content/10.1101/2023.02.10.528049v1.full.pdf">rebuttal
+1</a>,
+<a href="https://www.biorxiv.org/content/10.1101/2023.07.28.550993v1">preprint
+2</a>,
+<a href="https://github.com/gregpoore/tcga_rebuttal">rebuttal 2</a>.</p>
+<p>I would like to thank both the authors of the original paper and the
+preprints for their commitment to open science in making the data and
+the associated analytical code publicly accessible.</p>
+<p>This blog post does not attempt to consider all the points made in both
+the original paper or the countering preprints and rebuttals. Instead, I
+focus on the issue of controlling for unwanted batch effects and the
+importance of study design.</p>
+<h3 id="summary">Summary</h3>
+<p>While the TCGA study was primarily designed to focus on human genomics
+and transcriptomics, its design makes it challenging to discern reliable
+microbial signatures. This is due to the confounding correlations
+between unintended batch effects—like hospital, sequencing center, and
+body site—and the primary variable of interest: cancer.</p>
+<p>It has been suggested that the contamination identified in the pre-print
+does not necessarily invalidate the findings as it does not matter if
+the reads were assigned perfectly as long as a signature was still
+present. Indeed, I would be surprised if cancer associated human reads
+were responsible for all the strong signals observed in the original
+paper.</p>
+<p>However, there are many other batch effects in the TCGA data that
+correlate with particular cancer types.</p>
+<p><strong>To investigate this further I wanted to consider three main points</strong></p>
+<ol>
+<li>
+<p><strong>How robust is the supervised normalisation method to confounding
+batch effects?</strong></p>
+</li>
+<li>
+<p><strong>Given the presence of confounding batch effects, can we use the
+‘normal’ (non-cancerous) tissue control samples to account for
+unwanted batch effects in the original count data?</strong></p>
+</li>
+<li>
+<p><strong>If we can, is there still a strong signal of cancer specific
+microbial signatures?</strong></p>
+</li>
+</ol>
+<h2 id="1-supervised-normalisation">1. Supervised normalisation</h2>
+<p>I have noticed an increasing number of microbiome papers using
+Supervised Normalisation and in particular the Supervised Normalisation
+of Microarrays (SNM) method described in <a href="https://academic.oup.com/bioinformatics/article/26/10/1308/193098">Mecham et al.,
+2010</a>
+prior to training machine learning techniques.</p>
+<p>As this method is supervised, it includes the variable of interest when
+controlling for unwanted variation. If care is not taken with the
+experimental design, this approach will artificially imprint the data
+with a signal of the variable of interest.</p>
+<p>The problem of unintentionally imprinting the data becomes especially
+critical when there’s a correlation between the undesired variables set
+to be removed and the target variable. For instance, if specific labs or
+hospitals (the unwanted sources of variation) predominantly sample or
+sequence a subset of cancers (the variable of interest).</p>
+<p>In differential gene expression research, where many of these
+normalisation techniques originated, it’s usually advised to include
+batch effects as a variable in the Generalised Linear Model (GLM) used
+to identify differentially expressed genes. The normalised expression
+values are typically only used to generate quality control plots to
+assess the influence of different variables, which helps circumvent
+potential data imprinting issues.</p>
+<p>To demonstrate the problem of confounding variables we can simulate
+artificial microbiome data where there exists unwanted variation but
+<strong>no</strong> signal associated with the variable of interest.</p>
+<p>Initially, we need to load some libraries.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(data.table)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(scales)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(caret)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(splatter)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(snm)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(SCRuB)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(edgeR)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">set.seed</span>(<span style="color:#099">1234</span>)
+</span></span><span style="display:flex;"><span>cols <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#39;#e41a1c&#39;</span>,<span style="color:#b84">&#39;#377eb8&#39;</span>,<span style="color:#b84">&#39;#4daf4a&#39;</span>,<span style="color:#b84">&#39;#984ea3&#39;</span>)
+</span></span></code></pre></div><p>Let’s start by generating simulated microbiome compositions using the
+<code>splatter</code> bioconductor package. <code>Splatter</code> was originally designed to
+simulate single cell data which is usually zero-inflated and
+over-dispersed much like microbiome data.</p>
+<p>We’ll consider 100 samples with up to 500 species in each sample. Each
+simulation is independent so there are no underlying groups or clusters
+of interest present. We add a simulated batch effect of 4 groups split
+roughly evenly over the 200 samples.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>batches <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">50</span>, <span style="color:#099">50</span>, <span style="color:#099">50</span>, <span style="color:#099">50</span>)
+</span></span><span style="display:flex;"><span>nsamples <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sum</span>(batches)
+</span></span><span style="display:flex;"><span>params <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">newSplatParams</span>(nGenes<span style="font-weight:bold">=</span><span style="color:#099">500</span>, lib.loc<span style="font-weight:bold">=</span><span style="color:#099">12</span>, lib.scale<span style="font-weight:bold">=</span><span style="color:#099">0.5</span>, batchCells<span style="font-weight:bold">=</span>batches)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sim <span style="font-weight:bold">&lt;-</span> splatter<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">splatSimulate</span>(params <span style="font-weight:bold">=</span> params, verbose <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>count_matrix <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">counts</span>(sim)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(count_matrix) <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#39;sample&#39;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span>nsamples, sep<span style="font-weight:bold">=</span><span style="color:#b84">&#34;_&#34;</span>)
+</span></span></code></pre></div><p>Let’s arbitrarily divide the data into two groups of interest,
+potentially representing different cancer types. Since we haven’t
+simulated any differences between these groups, we shouldn’t expect them
+to cluster, which can be verified using an MDS plot.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>groups <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</span></span><span style="display:flex;"><span>  sample<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#39;sample&#39;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span>nsamples, sep<span style="font-weight:bold">=</span><span style="color:#b84">&#34;_&#34;</span>),
+</span></span><span style="display:flex;"><span>  batch <span style="font-weight:bold">=</span> sim<span style="font-weight:bold">$</span>Batch,
+</span></span><span style="display:flex;"><span>  disease_type<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">sample</span>(<span style="color:#900;font-weight:bold">rep</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#39;a&#39;</span>,<span style="color:#b84">&#39;b&#39;</span>), nsamples<span style="font-weight:bold">/</span><span style="color:#099">2</span>), nsamples, replace <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>) <span style="color:#998;font-style:italic"># sample is used to randomise the allocation to groups</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># account for read depth and transform to log space </span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(count_matrix, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#Plot disease type</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>disease_type)], labels <span style="font-weight:bold">=</span> <span style="font-weight:bold">NULL</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;false condition A&#34;</span>,<span style="color:#b84">&#34;false condition B&#34;</span>), fill<span style="font-weight:bold">=</span> cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-7-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic">#Plot batch</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>batch)])
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#34;batch&#34;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">4</span>), fill<span style="font-weight:bold">=</span>cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-7-2.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>We can now apply the Supervised Normalisation of Microarrays method. A
+critical aspect of this approach is the incorporation of the variable of
+interest as an input, enhancing its capacity to preserve the associated
+signal. However, critically it assumes that <strong>there is not a correlation
+between the unwanted batch effects and the variable of interest</strong>. Thus,
+it is essential that the experimental design satisfies this condition.
+This is rarely the case in microbiome studies.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>disease_matrix <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">model.matrix</span>(<span style="font-weight:bold">~</span>disease_type, data<span style="font-weight:bold">=</span>groups)
+</span></span><span style="display:flex;"><span>batch_matrix <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">model.matrix</span>(<span style="font-weight:bold">~</span>batch, data<span style="font-weight:bold">=</span>groups)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>normalised <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">snm</span>(raw.dat <span style="font-weight:bold">=</span> y, 
+</span></span><span style="display:flex;"><span>                  bio.var <span style="font-weight:bold">=</span> disease_matrix, 
+</span></span><span style="display:flex;"><span>                  adj.var <span style="font-weight:bold">=</span> batch_matrix, 
+</span></span><span style="display:flex;"><span>                  rm.adj<span style="font-weight:bold">=</span><span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                  verbose <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                  diagnose <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>)
+</span></span></code></pre></div><p>Let’s plot the results using Multidimensional Scaling (MDS).</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(normalised<span style="font-weight:bold">$</span>norm.dat, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;fake condition A&#34;</span>,<span style="color:#b84">&#34;fake condition B&#34;</span>), fill<span style="font-weight:bold">=</span> cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-9-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(normalised<span style="font-weight:bold">$</span>norm.dat, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>batch)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#34;batch&#34;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">4</span>), fill<span style="font-weight:bold">=</span>cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-9-2.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>It’s handled the batch correction well and has not added any obvious
+artificial signal. However, things change when we add some correlation
+between the unwanted variation (batches) and the fake variable of
+interest.</p>
+<p>To add some correlation between the groups and the ‘fake’ variable of
+interest, we can increase the probability a sample is of a particular
+cancer type if occurs within a subset of batches.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># a sample is 5 times more likely to be in condition &#39;b&#39; if it belongs to an even batch number</span>
+</span></span><span style="display:flex;"><span>fake_disease_type <span style="font-weight:bold">&lt;-</span> purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map_chr</span>(<span style="color:#900;font-weight:bold">as.numeric</span>(<span style="color:#900;font-weight:bold">factor</span>(sim<span style="font-weight:bold">$</span>Batch)), 
+</span></span><span style="display:flex;"><span>                                    <span style="font-weight:bold">~</span> <span style="color:#900;font-weight:bold">sample</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#39;a&#39;</span>,<span style="color:#b84">&#39;b&#39;</span>), size <span style="font-weight:bold">=</span> <span style="color:#099">1</span>, prob <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">1</span>, <span style="color:#099">5</span><span style="font-weight:bold">*</span>(.x <span style="font-weight:bold">%%</span> <span style="color:#099">2</span>)))) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>groups <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</span></span><span style="display:flex;"><span>  sample<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#39;sample&#39;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span>nsamples, sep<span style="font-weight:bold">=</span><span style="color:#b84">&#34;_&#34;</span>),
+</span></span><span style="display:flex;"><span>  batch <span style="font-weight:bold">=</span> sim<span style="font-weight:bold">$</span>Batch,
+</span></span><span style="display:flex;"><span>  disease_type<span style="font-weight:bold">=</span>fake_disease_type
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>disease_matrix <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">model.matrix</span>(<span style="font-weight:bold">~</span>disease_type, data<span style="font-weight:bold">=</span>groups)
+</span></span><span style="display:flex;"><span>batch_matrix <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">model.matrix</span>(<span style="font-weight:bold">~</span>batch, data<span style="font-weight:bold">=</span>groups)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># account for read depth and transform to log space </span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(count_matrix, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>) 
+</span></span></code></pre></div><p>We can now check the un-normalised plots which look similar to before.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;fake condition A&#34;</span>,<span style="color:#b84">&#34;fake condition B&#34;</span>), fill<span style="font-weight:bold">=</span> cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-11-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>batch)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#34;batch&#34;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">4</span>), fill<span style="font-weight:bold">=</span>cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-11-2.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>However, after normalisation, the data no longer clusters by batch.
+Instead, we see an unexpected clustering based on our simulated disease
+type!</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>normalised <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">snm</span>(raw.dat <span style="font-weight:bold">=</span> y, 
+</span></span><span style="display:flex;"><span>                  bio.var <span style="font-weight:bold">=</span> disease_matrix, 
+</span></span><span style="display:flex;"><span>                  adj.var <span style="font-weight:bold">=</span> batch_matrix, 
+</span></span><span style="display:flex;"><span>                  rm.adj<span style="font-weight:bold">=</span><span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                  verbose <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                  diagnose <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(normalised<span style="font-weight:bold">$</span>norm.dat, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;fake condition A&#34;</span>,<span style="color:#b84">&#34;fake condition B&#34;</span>), fill<span style="font-weight:bold">=</span> cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-12-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(normalised<span style="font-weight:bold">$</span>norm.dat, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(groups<span style="font-weight:bold">$</span>batch)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#34;batch&#34;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">4</span>), fill<span style="font-weight:bold">=</span>cols, ncol<span style="font-weight:bold">=</span><span style="color:#099">2</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-12-2.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>If we feed this imprinted data into a machine learning classifier, it
+will artificially increase its accuracy and incorrectly identify a
+signal associated with the fake variable of interest.</p>
+<h2 id="2-accounting-for-unwanted-variation-in-the-tcga-data">2: Accounting for unwanted variation in the TCGA data</h2>
+<p>Knowing that the supervised normalisation of microbiome data is
+problematic, I was interested in examining the signals present within
+the TCGA data and whether it was possible to account for the unwanted
+batch effects without imprinting the data with an artificial signal.</p>
+<p>Although, the contamination with human reads has received a lot of
+attention, it seems unlikely that mutations in human genomes associated
+with cancer would result in sufficiently different contamination
+profiles to distinguish all cancer types. It should be possible to
+account for such contamination in the normalisation stage if suitable
+control samples are available.</p>
+<p>To investigate this further, I was interested in whether the observed
+cancer correlations remained after we accounted for microbial variation
+observed in the corresponding tissue normal samples for each site.</p>
+<p>These ‘normal’ samples are not an ideal control. <strong>If cancer associated
+bacteria are also present in the normal tissue this would remove such a
+signal.</strong> Ideally, we would have a corresponding set of body site
+specific normal tissue from patients without cancer. However, by using
+the normal tissue samples from the TCGA dataset we should be able to
+account for many batch effects including whether the observed
+correlations could simply be driven by site specific bacteria.</p>
+<p>To start, lets load the original un-filtered count data from the
+original publication and the cleaned count data produced by Gihawi et
+al. in their recent preprint.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Original counts with and without normalisation from Poore et al., 2020 https://www.nature.com/articles/s41586-020-2095-1</span>
+</span></span><span style="display:flex;"><span>orignal_counts_raw <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/Kraken-TCGA-Raw-Data-All-18116-Samples.csv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw) <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;.*g__&#34;</span>,<span style="color:#b84">&#34;&#34;</span>,<span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_data <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/tcga_metadata_poore_et_al_2020_1Aug23.csv&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_extra <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/Metadata-TCGA-All-18116-Samples.csv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(meta_extra)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>gender <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>gender<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>platform <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>platform<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>portion_ffpe <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>portion_is_ffpe<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>experimental_strategy <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>experimental_strategy<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>tissue_source_site_label <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>tissue_source_site_label<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#Load the updated counts from Gihawi et al., bioRxiv 2023.  https://github.com/yge15/Cancer_Microbiome_Reanalyzed</span>
+</span></span><span style="display:flex;"><span>gihawi_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">map</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;./data/TableS8_BLCA.all.csv&#34;</span>, <span style="color:#b84">&#34;./data/TableS9_HNSC_all.csv&#34;</span>, <span style="color:#b84">&#34;./data/TableS10_BRCA_WGS.csv&#34;</span>), <span style="font-weight:bold">~</span> {
+</span></span><span style="display:flex;"><span>                       df <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(.x)
+</span></span><span style="display:flex;"><span>                      <span style="color:#900;font-weight:bold">colnames</span>(df)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#900;font-weight:bold">colnames</span>(df) <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;^g_&#34;</span>,<span style="color:#b84">&#34;&#34;</span>,<span style="color:#900;font-weight:bold">colnames</span>(df))
+</span></span><span style="display:flex;"><span>                      <span style="color:#900;font-weight:bold">return</span>(df)
+</span></span><span style="display:flex;"><span>                     })
+</span></span><span style="display:flex;"><span>common_species <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Reduce</span>(intersect, <span style="color:#900;font-weight:bold">map</span>(gihawi_counts, colnames))
+</span></span><span style="display:flex;"><span>common_species <span style="font-weight:bold">&lt;-</span> common_species[common_species<span style="font-weight:bold">!=</span><span style="color:#b84">&#34;Homo&#34;</span>] <span style="color:#998;font-style:italic"># remove human reads</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gihawi_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">map_dfr</span>(gihawi_counts, <span style="font-weight:bold">~</span> .x[,common_species])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#subset metadata and samples</span>
+</span></span><span style="display:flex;"><span>meta_data <span style="font-weight:bold">&lt;-</span> meta_data[meta_data<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> gihawi_counts<span style="font-weight:bold">$</span>Sample,]
+</span></span><span style="display:flex;"><span>orignal_counts_raw <span style="font-weight:bold">&lt;-</span> orignal_counts_raw[orignal_counts_raw<span style="font-weight:bold">$</span>Sample <span style="font-weight:bold">%in%</span> gihawi_counts<span style="font-weight:bold">$</span>Sample, ]
+</span></span><span style="display:flex;"><span>orignal_counts_raw <span style="font-weight:bold">&lt;-</span> orignal_counts_raw[, <span style="color:#900;font-weight:bold">c</span>(<span style="font-weight:bold">TRUE</span>, <span style="color:#900;font-weight:bold">colSums</span>(orignal_counts_raw[,<span style="color:#099">2</span><span style="font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(orignal_counts_raw)]))<span style="font-weight:bold">&gt;</span><span style="color:#099">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Order all matrices to match the meta table</span>
+</span></span><span style="display:flex;"><span>gihawi_counts <span style="font-weight:bold">&lt;-</span> gihawi_counts<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, gihawi_counts<span style="font-weight:bold">$</span>Sample),]
+</span></span><span style="display:flex;"><span>orignal_counts_raw <span style="font-weight:bold">&lt;-</span> orignal_counts_raw<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, orignal_counts_raw<span style="font-weight:bold">$</span>Sample),]
+</span></span></code></pre></div><p>We can consider the intersection between the species observed in the
+original un-filtered data and the cleaned set from the preprint.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ggVennDiagram<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">ggVennDiagram</span>(<span style="color:#900;font-weight:bold">list</span>(Gihawi<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">colnames</span>(gihawi_counts)[<span style="color:#099">-1</span>], 
+</span></span><span style="display:flex;"><span>                                  Poore<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw)[<span style="color:#099">-1</span>])) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_fill_distiller</span>(palette <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-14-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<h3 id="21-analysis-of-gihawi-et-alfiltered-counts">2.1 Analysis of Gihawi et al. filtered counts</h3>
+<p>In a <a href="https://github.com/gregpoore/tcga_rebuttal">response</a> to the
+Gihawi et al. pre-print, Poore et al. identified a cancer-specific
+microbial signature in a subset of the TCGA data, which included three
+cancer types sequenced at Harvard Medical School. To tackle the issue of
+normalisation, they utilised the cleaned counts from Gihawi et al.,
+without implementing any normalisation procedures.</p>
+<p>While all samples were processed at HMS, they originated from different
+hospitals and included cancers from different body sites. Thus, it is
+not clear if the identified signal was due to the cancer type or
+remaining batch effects.</p>
+<p>Indeed, if we create an MDS plot of this data we observe quite clear
+clusters.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> meta_data <span style="font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(<span style="font-weight:bold">!</span><span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#b84">&#34;.*Normal&#34;</span>, sample_type)) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(data_submitting_center_label<span style="font-weight:bold">==</span><span style="color:#b84">&#34;Harvard Medical School&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> gihawi_counts[gihawi_counts<span style="font-weight:bold">$</span>Sample <span style="font-weight:bold">%in%</span> filt_meta<span style="font-weight:bold">$</span>sampleid, ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(filt_counts<span style="font-weight:bold">$</span>Sample<span style="font-weight:bold">==</span>filt_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[,<span style="color:#099">-1</span>])
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(filt_counts) <span style="font-weight:bold">&lt;-</span> filt_meta<span style="font-weight:bold">$</span>sampleid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> filt_counts[, <span style="color:#900;font-weight:bold">colSums</span>(filt_counts)<span style="font-weight:bold">&gt;</span><span style="color:#099">100</span>]
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> meta_data[meta_data<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(filt_counts), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(filt_counts, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols<span style="color:#900;font-weight:bold">[factor</span>(filt_meta<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(filt_meta<span style="font-weight:bold">$</span>disease_type), fill<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">rev</span>(cols[1<span style="font-weight:bold">:</span><span style="color:#099">3</span>]), ncol<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-15-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>However, while the sequencing center is the same, other potential batch
+effects could be driving the signal including the hospital the samples
+originated from and the body site the cancer was located in. We can plot
+the distribution of cancer types by hospital.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(filt_meta, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>disease_type, y<span style="font-weight:bold">=</span>tissue_source_site_label)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_bin2d</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">14</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(axis.text.x <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="font-weight:bold">=</span> <span style="color:#099">30</span>, hjust <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_fill_binned</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">xlab</span>(<span style="color:#b84">&#34;&#34;</span>) <span style="font-weight:bold">+</span> <span style="color:#900;font-weight:bold">ylab</span>(<span style="color:#b84">&#34;&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-16-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>One option to account for these sources of unwanted variation is to use
+the associated non-cancer normal tissue samples as controls. We can use
+the excellent
+<a href="https://www.nature.com/articles/s41587-023-01696-w">SCRuB</a>
+decontamination method to do this.</p>
+<p>As there are no normal tissue samples for the breast cancer samples at
+Harvard Medical School we restrict this analysis to the remaining two
+cancer types.</p>
+<p>First, let’s check the number of remaining reads in each sample</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> meta_data <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(data_submitting_center_label<span style="font-weight:bold">==</span><span style="color:#b84">&#34;Harvard Medical School&#34;</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(sample_type<span style="font-weight:bold">!=</span><span style="color:#b84">&#34;Blood Derived Normal&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># split into normal and cancerous tissue samples</span>
+</span></span><span style="display:flex;"><span>filt_meta<span style="font-weight:bold">$</span>normal <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#b84">&#34;.*Normal&#34;</span>, filt_meta<span style="font-weight:bold">$</span>sample_type)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Keep those where we have both tumor and normal tissue samples.</span>
+</span></span><span style="display:flex;"><span>keep <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">group_by</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  dplyr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">summarise</span>(
+</span></span><span style="display:flex;"><span>    normal_and_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(normal))<span style="font-weight:bold">&gt;</span><span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>    n_normal <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(normal),
+</span></span><span style="display:flex;"><span>    n_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  ) <span style="font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">filter</span>(normal_and_cancer)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">paste</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">paste</span>(keep<span style="font-weight:bold">$</span>investigation, keep<span style="font-weight:bold">$</span>data_submitting_center_label))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> gihawi_counts[gihawi_counts<span style="font-weight:bold">$</span>Sample <span style="font-weight:bold">%in%</span> filt_meta<span style="font-weight:bold">$</span>sampleid, ]
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(filt_counts<span style="font-weight:bold">$</span>Sample<span style="font-weight:bold">==</span>filt_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[,<span style="color:#099">-1</span>])
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(filt_counts) <span style="font-weight:bold">&lt;-</span> filt_meta<span style="font-weight:bold">$</span>sampleid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pdf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</span></span><span style="display:flex;"><span>  `cancer type`<span style="font-weight:bold">=</span>filt_meta<span style="font-weight:bold">$</span>disease_type,
+</span></span><span style="display:flex;"><span>  `number of reads` <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(filt_counts)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(pdf, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>`cancer type`, y<span style="font-weight:bold">=</span>`number of reads`, colour<span style="font-weight:bold">=</span>`cancer type`)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_boxplot</span>(outlier.colour <span style="font-weight:bold">=</span> <span style="font-weight:bold">NA</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  ggbeeswarm<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">geom_quasirandom</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_log10</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="font-weight:bold">=</span> cols[<span style="color:#099">-2</span>]) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">14</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="font-weight:bold">=</span> <span style="color:#b84">&#39;none&#39;</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">xlab</span>(<span style="color:#b84">&#34;&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-17-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>The number of microbial reads vary substantially by cancer type. While
+it might be possible to account for some of this by normalising for
+total read counts, it is unlikely to account for the increased number of
+potential species that could be observed at much higher read depths.</p>
+<p>Instead, we restrict out analysis to samples with similar read counts of
+between 500 and 50,000 reads.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Throw out samples with &lt; 100 reads</span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> filt_counts[, (<span style="color:#900;font-weight:bold">colSums</span>(filt_counts)<span style="font-weight:bold">&gt;</span><span style="color:#099">500</span>) <span style="font-weight:bold">&amp;</span> (<span style="color:#900;font-weight:bold">colSums</span>(filt_counts)<span style="font-weight:bold">&lt;</span><span style="color:#099">50000</span>)]
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta[filt_meta<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(filt_counts), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Run the SCRuB algorithm on each cancer type</span>
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map2</span>(keep<span style="font-weight:bold">$</span>data_submitting_center_label, keep<span style="font-weight:bold">$</span>investigation, <span style="font-weight:bold">~</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># print(paste(.x, .y, sep = &#34; : &#34;))</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  k <span style="font-weight:bold">&lt;-</span> (filt_meta<span style="font-weight:bold">$</span>investigation<span style="font-weight:bold">==</span>.y) <span style="font-weight:bold">&amp;</span> (filt_meta<span style="font-weight:bold">$</span>data_submitting_center_label<span style="font-weight:bold">==</span>.x)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  case_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> <span style="font-weight:bold">!</span>filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  control_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  new_meta <span style="font-weight:bold">&lt;-</span> filt_meta[k,] <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">filter</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># Account for site specific signatures using SCruB</span>
+</span></span><span style="display:flex;"><span>  norm_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(<span style="color:#900;font-weight:bold">SCRUB_no_spatial</span>(case_counts, control_counts)<span style="font-weight:bold">$</span>decontaminated_samples)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(<span style="color:#900;font-weight:bold">colnames</span>(norm_counts)<span style="font-weight:bold">==</span>new_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">return</span>(<span style="color:#900;font-weight:bold">list</span>(norm_counts<span style="font-weight:bold">=</span>norm_counts, meta<span style="font-weight:bold">=</span>new_meta))
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>scrub_meta <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">map_dfr</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>meta)
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">do.call</span>(cbind, purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>norm_counts))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Account for remaining unwanted variables including gender and the hospital where the sample was taken</span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(scrub_counts, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>]<span style="color:#900;font-weight:bold">[factor</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type), fill<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>], ncol<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-18-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>Once body site-specific microbial signatures are accounted for, the
+distinction between cancer types diminishes slightly. However, if we
+factor in the hospital from which samples were collected—a potential
+source of contamination—no obvious signal remains.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">removeBatchEffect</span>(y, batch <span style="font-weight:bold">=</span> scrub_meta<span style="font-weight:bold">$</span>tissue_source_site_label)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>]<span style="color:#900;font-weight:bold">[factor</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type), fill<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>], ncol<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-19-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>So far, we have shown that Supervised Normalisation can artificially
+imprint a data set with a signal if there is a correlation between the
+variable of interest and unwanted batch effects.</p>
+<p>After employing rigorous normalisation methods to mitigate potential
+influences from body site and hospital batch effects, the distinction
+between Bladder Urothelial Carcinoma and Head and Neck Squamous Cell
+Carcinoma isn’t evident. While this doesn’t rule out unique microbial
+signatures in these samples, the TCGA study design complicates the task
+of detecting a robust signal.</p>
+<h3 id="22-analysis-of-the-original-poore-et-alread-counts">2.2 Analysis of the original Poore et al. read counts</h3>
+<p>As we can use alternative normalisation strategies to account for batch
+effects within the TCGA data, I was interested in whether these would
+work on the original count data from the Poore et al., paper.</p>
+<p>This presupposes that any cancer-associated human contaminant reads, as
+identified in the Gihawi et al. preprint, are unlikely to align with
+different bacterial species compared to non-cancerous human reads.</p>
+<p>To investigate this, I started by considering the same samples sequenced
+at Harvard Medical School.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> meta_data <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(data_submitting_center_label<span style="font-weight:bold">==</span><span style="color:#b84">&#34;Harvard Medical School&#34;</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(sample_type<span style="font-weight:bold">!=</span><span style="color:#b84">&#34;Blood Derived Normal&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># split into normal and cancerous tissue samples</span>
+</span></span><span style="display:flex;"><span>filt_meta<span style="font-weight:bold">$</span>normal <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#b84">&#34;.*Normal&#34;</span>, filt_meta<span style="font-weight:bold">$</span>sample_type)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Keep those where we have both tumor and normal tissue samples.</span>
+</span></span><span style="display:flex;"><span>keep <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">group_by</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  dplyr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">summarise</span>(
+</span></span><span style="display:flex;"><span>    normal_and_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(normal))<span style="font-weight:bold">&gt;</span><span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>    n_normal <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(normal),
+</span></span><span style="display:flex;"><span>    n_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  ) <span style="font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">filter</span>(normal_and_cancer)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">paste</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">paste</span>(keep<span style="font-weight:bold">$</span>investigation, keep<span style="font-weight:bold">$</span>data_submitting_center_label))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> orignal_counts_raw[orignal_counts_raw<span style="font-weight:bold">$</span>Sample <span style="font-weight:bold">%in%</span> filt_meta<span style="font-weight:bold">$</span>sampleid, ]
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(filt_counts<span style="font-weight:bold">$</span>Sample<span style="font-weight:bold">==</span>filt_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[,<span style="color:#099">-1</span>])
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(filt_counts) <span style="font-weight:bold">&lt;-</span> filt_meta<span style="font-weight:bold">$</span>sampleid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta[filt_meta<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(filt_counts), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Run the SCRuB algorithm on each cancer type</span>
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map2</span>(keep<span style="font-weight:bold">$</span>data_submitting_center_label, keep<span style="font-weight:bold">$</span>investigation, <span style="font-weight:bold">~</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># print(paste(.x, .y, sep = &#34; : &#34;))</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  k <span style="font-weight:bold">&lt;-</span> (filt_meta<span style="font-weight:bold">$</span>investigation<span style="font-weight:bold">==</span>.y) <span style="font-weight:bold">&amp;</span> (filt_meta<span style="font-weight:bold">$</span>data_submitting_center_label<span style="font-weight:bold">==</span>.x)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  case_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> <span style="font-weight:bold">!</span>filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  control_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  new_meta <span style="font-weight:bold">&lt;-</span> filt_meta[k,] <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">filter</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># Account for site specific signatures using SCruB</span>
+</span></span><span style="display:flex;"><span>  norm_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(<span style="color:#900;font-weight:bold">SCRUB_no_spatial</span>(case_counts, control_counts)<span style="font-weight:bold">$</span>decontaminated_samples)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(<span style="color:#900;font-weight:bold">colnames</span>(norm_counts)<span style="font-weight:bold">==</span>new_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">return</span>(<span style="color:#900;font-weight:bold">list</span>(norm_counts<span style="font-weight:bold">=</span>norm_counts, meta<span style="font-weight:bold">=</span>new_meta))
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>scrub_meta <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">map_dfr</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>meta)
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">do.call</span>(cbind, purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>norm_counts))
+</span></span></code></pre></div><p>As the read counts are now much higher and similar between cancer types
+we do not need to filter out samples by read depth prior to running
+SCRuB.</p>
+<p>However, the SCRuB algorithm now assigns the vast majority of read
+counts to potential contamination. This demonstrates that using good
+control samples when performing normalisation and batch correction can
+account for even large issues with contamination, as long as that
+contamination is not correlated with the variable of interest.</p>
+<p>We can look at the difference in read counts before and after using a
+log-scaled plot.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>pdf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</span></span><span style="display:flex;"><span>       sample<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">colnames</span>(scrub_counts),
+</span></span><span style="display:flex;"><span>       center<span style="font-weight:bold">=</span>scrub_meta<span style="font-weight:bold">$</span>data_submitting_center_label,
+</span></span><span style="display:flex;"><span>       cancer_type<span style="font-weight:bold">=</span>scrub_meta<span style="font-weight:bold">$</span>disease_type,
+</span></span><span style="display:flex;"><span>       `Original un-filtered counts`<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">colSums</span>(filt_counts)<span style="color:#900;font-weight:bold">[match</span>(<span style="color:#900;font-weight:bold">colnames</span>(scrub_counts), <span style="color:#900;font-weight:bold">colnames</span>(filt_counts))],
+</span></span><span style="display:flex;"><span>       `Counts after SCRuB normalisation`<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">colSums</span>(scrub_counts)) <span style="font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">pivot_longer</span>(cols<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#b84">&#34;Original un-filtered counts&#34;</span>,<span style="color:#b84">&#34;Counts after SCRuB normalisation&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(pdf, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>sample, y<span style="font-weight:bold">=</span>value, colour<span style="font-weight:bold">=</span>name)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># scale_y_log10() +</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(trans<span style="font-weight:bold">=</span>scales<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">pseudo_log_trans</span>(base <span style="font-weight:bold">=</span> <span style="color:#099">10</span>),
+</span></span><span style="display:flex;"><span>                     breaks<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>, <span style="color:#099">10</span>, <span style="color:#099">100</span>,<span style="color:#099">1000</span>,<span style="color:#099">1e4</span>,<span style="color:#099">1e5</span>,<span style="color:#099">1e6</span>,<span style="color:#099">1e7</span>)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">facet_wrap</span>(<span style="font-weight:bold">~</span>cancer_type, scales <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;free_x&#34;</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_color_brewer</span>(type <span style="font-weight:bold">=</span> <span style="color:#b84">&#39;q&#39;</span>, palette <span style="font-weight:bold">=</span> <span style="color:#099">2</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">14</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(axis.text.x<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>(),
+</span></span><span style="display:flex;"><span>        axis.ticks.x<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>(),
+</span></span><span style="display:flex;"><span>        legend.position<span style="font-weight:bold">=</span><span style="color:#b84">&#34;bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>        legend.title<span style="font-weight:bold">=</span><span style="color:#900;font-weight:bold">element_blank</span>()) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">ylab</span>(<span style="color:#b84">&#34;Total read count (log scale)&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-21-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>After filtering out signals present in the tissue normal samples, some
+samples have very low read depths making them unsuitable for further
+analysis. After filtering these out, we can look at how the remaining
+samples cluster together.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Throw out samples with &lt; 100 reads</span>
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> scrub_counts[, <span style="color:#900;font-weight:bold">colSums</span>(scrub_counts)<span style="font-weight:bold">&gt;</span><span style="color:#099">100</span>]
+</span></span><span style="display:flex;"><span>scrub_meta <span style="font-weight:bold">&lt;-</span> scrub_meta[scrub_meta<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(scrub_counts), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Account for remaining unwanted variables including gender and the hospital where the sample was taken</span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(scrub_counts, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>]<span style="color:#900;font-weight:bold">[factor</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type), fill<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>], ncol<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-22-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>There is no longer any clustering by cancer type, but there does appear
+to be some clustering driven by a remaining batch effect. Accounting for
+the hospital removes this effect.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">removeBatchEffect</span>(y, batch <span style="font-weight:bold">=</span> scrub_meta<span style="font-weight:bold">$</span>tissue_source_site_label)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">plotMDS</span>(y, col<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>]<span style="color:#900;font-weight:bold">[factor</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type)],
+</span></span><span style="display:flex;"><span>        var.explained <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">legend</span>(x <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;bottomright&#34;</span>, legend <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(scrub_meta<span style="font-weight:bold">$</span>disease_type), fill<span style="font-weight:bold">=</span>cols[<span style="color:#099">-2</span>], ncol<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-23-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>While it is always better to start with cleaner data, this analysis
+demonstrates that a careful use of normalisation and batch correction
+techniques can help to correct for even large amounts of contamination.</p>
+<p>As we have shown that we can account for most unwanted variation in the
+subset of samples from Harvard, even when using the original un-filtered
+count data, we can now investigate the signals present in the larger
+dataset originally published by Poore et al.</p>
+<h2 id="3-re-analysis-of-poore-et-aldata-across-hospital-sites-and-cancer-types">3. Re-analysis of Poore et al. data across hospital sites and cancer types</h2>
+<p>To start, I load the full unfiltered TCGA data from the Poore et al.,
+manuscript.</p>
+<p>To streamline the analysis and avoid some undesired variables, I’ve
+limited the re-analysis to WGS samples sequenced using the Illumina
+HiSeq.</p>
+<p>In order to implementation of the SCRuB algorithm, I further restrict
+the analysis to consider only those cancer type and sequencing institute
+pairings that have a minimum of three cancer tissue samples and three
+normal tissue control samples.</p>
+<p>This results in a data set of 1,809 cancer samples across 16 cancer
+types.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>meta_data <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/tcga_metadata_poore_et_al_2020_1Aug23.csv&#34;</span>)
+</span></span><span style="display:flex;"><span>meta_extra <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/Metadata-TCGA-All-18116-Samples.csv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(meta_extra)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>gender <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>gender<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>platform <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>platform<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>portion_ffpe <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>portion_is_ffpe<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>experimental_strategy <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>experimental_strategy<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>meta_data<span style="font-weight:bold">$</span>tissue_source_site_label <span style="font-weight:bold">&lt;-</span> meta_extra<span style="font-weight:bold">$</span>tissue_source_site_label<span style="color:#900;font-weight:bold">[match</span>(meta_data<span style="font-weight:bold">$</span>sampleid, meta_extra<span style="font-weight:bold">$</span>Sample)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>orignal_counts_raw <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#b84">&#34;./data/Kraken-TCGA-Raw-Data-All-18116-Samples.csv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw)[[1]] <span style="font-weight:bold">&lt;-</span> <span style="color:#b84">&#34;Sample&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw) <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;.*g__&#34;</span>,<span style="color:#b84">&#34;&#34;</span>,<span style="color:#900;font-weight:bold">colnames</span>(orignal_counts_raw))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>meta_data <span style="font-weight:bold">&lt;-</span> meta_data<span style="color:#900;font-weight:bold">[match</span>(orignal_counts_raw<span style="font-weight:bold">$</span>Sample, meta_data<span style="font-weight:bold">$</span>sampleid), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> meta_data <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(sample_type<span style="font-weight:bold">!=</span><span style="color:#b84">&#34;Blood Derived Normal&#34;</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(platform<span style="font-weight:bold">==</span><span style="color:#b84">&#39;Illumina HiSeq&#39;</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(portion_ffpe<span style="font-weight:bold">==</span><span style="color:#b84">&#39;NO&#39;</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(experimental_strategy<span style="font-weight:bold">==</span><span style="color:#b84">&#39;WGS&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># split into normal and cancerous tissue samples</span>
+</span></span><span style="display:flex;"><span>filt_meta<span style="font-weight:bold">$</span>normal <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#b84">&#34;.*Normal&#34;</span>, filt_meta<span style="font-weight:bold">$</span>sample_type)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Keep those where we have both tumor and at least 3 normal tissue samples.</span>
+</span></span><span style="display:flex;"><span>keep <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">group_by</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  dplyr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">summarise</span>(
+</span></span><span style="display:flex;"><span>    normal_and_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(normal))<span style="font-weight:bold">&gt;</span><span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>    n_normal <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(normal),
+</span></span><span style="display:flex;"><span>    n_cancer <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  ) <span style="font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(n_normal<span style="font-weight:bold">&gt;</span><span style="color:#099">3</span>) <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(n_cancer<span style="font-weight:bold">&gt;</span><span style="color:#099">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">paste</span>(investigation, data_submitting_center_label) <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">paste</span>(keep<span style="font-weight:bold">$</span>investigation, keep<span style="font-weight:bold">$</span>data_submitting_center_label))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> orignal_counts_raw[orignal_counts_raw<span style="font-weight:bold">$</span>Sample <span style="font-weight:bold">%in%</span> filt_meta<span style="font-weight:bold">$</span>sampleid, ]
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(filt_counts<span style="font-weight:bold">$</span>Sample<span style="font-weight:bold">==</span>filt_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[,<span style="color:#099">-1</span>])
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(filt_counts) <span style="font-weight:bold">&lt;-</span> filt_meta<span style="font-weight:bold">$</span>sampleid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filt_meta <span style="font-weight:bold">&lt;-</span> filt_meta[filt_meta<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(filt_counts), ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Run the SCRuB algorithm on each cancer type</span>
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map2</span>(keep<span style="font-weight:bold">$</span>data_submitting_center_label, keep<span style="font-weight:bold">$</span>investigation, <span style="font-weight:bold">~</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># print(paste(.x, .y, sep = &#34; : &#34;))</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  k <span style="font-weight:bold">&lt;-</span> (filt_meta<span style="font-weight:bold">$</span>investigation<span style="font-weight:bold">==</span>.y) <span style="font-weight:bold">&amp;</span> (filt_meta<span style="font-weight:bold">$</span>data_submitting_center_label<span style="font-weight:bold">==</span>.x)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  case_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> <span style="font-weight:bold">!</span>filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  control_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(filt_counts[, k <span style="font-weight:bold">&amp;</span> filt_meta<span style="font-weight:bold">$</span>normal])
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  new_meta <span style="font-weight:bold">&lt;-</span> filt_meta[k,] <span style="font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">filter</span>(<span style="font-weight:bold">!</span>normal)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic"># Account for site specific signatures using SCruB</span>
+</span></span><span style="display:flex;"><span>  norm_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(<span style="color:#900;font-weight:bold">SCRUB_no_spatial</span>(case_counts, control_counts)<span style="font-weight:bold">$</span>decontaminated_samples)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">stopifnot</span>(<span style="color:#900;font-weight:bold">all</span>(<span style="color:#900;font-weight:bold">colnames</span>(norm_counts)<span style="font-weight:bold">==</span>new_meta<span style="font-weight:bold">$</span>sampleid))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">return</span>(<span style="color:#900;font-weight:bold">list</span>(norm_counts<span style="font-weight:bold">=</span>norm_counts, meta<span style="font-weight:bold">=</span>new_meta))
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>scrub_meta <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">map_dfr</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>meta)
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">do.call</span>(cbind, purrr<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">map</span>(scrub_counts, <span style="font-weight:bold">~</span> .x<span style="font-weight:bold">$</span>norm_counts))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Throw out samples with &lt; 100 reads and species with &lt; 10</span>
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> scrub_counts[, <span style="color:#900;font-weight:bold">colSums</span>(scrub_counts)<span style="font-weight:bold">&gt;</span><span style="color:#099">100</span>]
+</span></span><span style="display:flex;"><span>scrub_counts <span style="font-weight:bold">&lt;-</span> scrub_counts<span style="color:#900;font-weight:bold">[rowSums</span>(scrub_counts)<span style="font-weight:bold">&gt;</span><span style="color:#099">10</span>, ]
+</span></span><span style="display:flex;"><span>scrub_meta <span style="font-weight:bold">&lt;-</span> scrub_meta[scrub_meta<span style="font-weight:bold">$</span>sampleid <span style="font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">colnames</span>(scrub_counts), ]
+</span></span></code></pre></div><p>We can now generate some plots to look for evidence of clustering by
+type across a much larger subset of 1,809 samples from the TCGA data set</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> edgeR<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">cpm</span>(scrub_counts, normalized.lib.sizes <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, log <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>, prior.count <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Account for remaining unwanted variables including gender and the hospital where the sample was taken</span>
+</span></span><span style="display:flex;"><span>y <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">removeBatchEffect</span>(y, batch <span style="font-weight:bold">=</span> scrub_meta<span style="font-weight:bold">$</span>tissue_source_site_label)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pca_res <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">prcomp</span>(y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pdf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cbind</span>(scrub_meta, pca_res<span style="font-weight:bold">$</span>rotation[,<span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">10</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(pdf, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>PC1, y<span style="font-weight:bold">=</span>PC2, col<span style="font-weight:bold">=</span>disease_type, shape<span style="font-weight:bold">=</span>disease_type)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_shape_manual</span>(values <span style="font-weight:bold">=</span><span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">17</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">14</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">labs</span>(colour<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Cancer type&#34;</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">labs</span>(shape<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Cancer type&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-25-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>There appears to be a clustering along the first principal component.
+However, this was not correlated with cancer type or any of the other
+unwanted variables available in the metadata.</p>
+<p>We can also consider a t-SNE plot which can sometimes reveal fine scale
+structure in high dimensional data sets.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>tsne <span style="font-weight:bold">&lt;-</span> Rtsne<span style="font-weight:bold">::</span><span style="color:#900;font-weight:bold">Rtsne</span>(pca_res<span style="font-weight:bold">$</span>rotation[,<span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">50</span>], pca<span style="font-weight:bold">=</span><span style="font-weight:bold">FALSE</span>, perplexity<span style="font-weight:bold">=</span><span style="color:#099">50</span>, check_duplicates<span style="font-weight:bold">=</span><span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">colnames</span>(tsne<span style="font-weight:bold">$</span>Y) <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">paste</span>(<span style="color:#b84">&#39;TSNE dim&#39;</span>, <span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(tsne<span style="font-weight:bold">$</span>Y))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pdf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cbind</span>(scrub_meta, tsne<span style="font-weight:bold">$</span>Y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggplot</span>(pdf, <span style="color:#900;font-weight:bold">aes</span>(x<span style="font-weight:bold">=</span>`TSNE dim 1`, y<span style="font-weight:bold">=</span>`TSNE dim 2`, col<span style="font-weight:bold">=</span>disease_type, shape<span style="font-weight:bold">=</span>disease_type)) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_shape_manual</span>(values <span style="font-weight:bold">=</span><span style="color:#099">1</span><span style="font-weight:bold">:</span><span style="color:#099">17</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_minimal</span>(base_size <span style="font-weight:bold">=</span> <span style="color:#099">14</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">labs</span>(colour<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Cancer type&#34;</span>) <span style="font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">labs</span>(shape<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Cancer type&#34;</span>)
+</span></span></code></pre></div><div style="text-align: center;">
+    <img src="/img/blog/tcga-post/unnamed-chunk-26-1.png" alt="Alt text for the image" style="margin: 0 auto; display: block;">
+</div>
+
+<p>Again, although there appears to be some clustering it does not
+correlate strongly with cancer type.</p>
+<p>Finally, an alternative method for determining if there is cancer
+associated clusters within this data is to build a machine learning
+model and estimate how accurately it can identify cancer types.</p>
+<p>Here, I used the same Gradient Boosted Trees method as was used in the
+<a href="https://github.com/gregpoore/tcga_rebuttal">rebuttal</a> to the preprint
+by Gihawi et al.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Set up data sets and set seed</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">set.seed</span>(<span style="color:#099">1234</span>)
+</span></span><span style="display:flex;"><span>trainX <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">t</span>(scrub_counts)
+</span></span><span style="display:flex;"><span>trainY <span style="font-weight:bold">&lt;-</span>  <span style="color:#900;font-weight:bold">factor</span>(<span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#b84">&#34;^TCGA-&#34;</span>,<span style="color:#b84">&#34;&#34;</span>, scrub_meta<span style="font-weight:bold">$</span>investigation))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Set up model</span>
+</span></span><span style="display:flex;"><span>xgbGrid <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">data.frame</span>(nrounds <span style="font-weight:bold">=</span> <span style="color:#099">10</span>,
+</span></span><span style="display:flex;"><span>                      max_depth <span style="font-weight:bold">=</span> <span style="color:#099">4</span>,
+</span></span><span style="display:flex;"><span>                      eta <span style="font-weight:bold">=</span> <span style="color:#099">.1</span>,
+</span></span><span style="display:flex;"><span>                      gamma <span style="font-weight:bold">=</span> <span style="color:#099">0</span>,
+</span></span><span style="display:flex;"><span>                      colsample_bytree <span style="font-weight:bold">=</span> <span style="color:#099">.7</span>,
+</span></span><span style="display:flex;"><span>                      min_child_weight <span style="font-weight:bold">=</span> <span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>                      subsample <span style="font-weight:bold">=</span> <span style="color:#099">.8</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># as ctrl defines the cross validation sampling during training</span>
+</span></span><span style="display:flex;"><span>ctrl <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">trainControl</span>(method <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;repeatedcv&#34;</span>,
+</span></span><span style="display:flex;"><span>                     number <span style="font-weight:bold">=</span> <span style="color:#099">10</span>,
+</span></span><span style="display:flex;"><span>                     repeats <span style="font-weight:bold">=</span> <span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>                     sampling <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;up&#34;</span>,
+</span></span><span style="display:flex;"><span>                     summaryFunction <span style="font-weight:bold">=</span> multiClassSummary,
+</span></span><span style="display:flex;"><span>                     classProbs <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                     verboseIter <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>                     savePredictions <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                     allowParallel<span style="font-weight:bold">=</span><span style="font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">set.seed</span>(<span style="color:#099">1234</span>)
+</span></span><span style="display:flex;"><span>mlModel <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">train</span>(x <span style="font-weight:bold">=</span> trainX,
+</span></span><span style="display:flex;"><span>                 y <span style="font-weight:bold">=</span> trainY,
+</span></span><span style="display:flex;"><span>                 method <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;xgbTree&#34;</span>,
+</span></span><span style="display:flex;"><span>                 nthread <span style="font-weight:bold">=</span> <span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>                 trControl <span style="font-weight:bold">=</span> <span style="color:#900;font-weight:bold">trainControl</span>(method <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;repeatedcv&#34;</span>,
+</span></span><span style="display:flex;"><span>                                          number <span style="font-weight:bold">=</span> <span style="color:#099">10</span>,
+</span></span><span style="display:flex;"><span>                                          repeats <span style="font-weight:bold">=</span> <span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>                                          sampling <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;up&#34;</span>,
+</span></span><span style="display:flex;"><span>                                          summaryFunction <span style="font-weight:bold">=</span> multiClassSummary,
+</span></span><span style="display:flex;"><span>                                          classProbs <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                                          verboseIter <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>                                          savePredictions <span style="font-weight:bold">=</span> <span style="font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                                          allowParallel<span style="font-weight:bold">=</span><span style="font-weight:bold">TRUE</span>),
+</span></span><span style="display:flex;"><span>                 tuneGrid <span style="font-weight:bold">=</span> xgbGrid,
+</span></span><span style="display:flex;"><span>                 verbose <span style="font-weight:bold">=</span> <span style="font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conf <span style="font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">confusionMatrix</span>(data <span style="font-weight:bold">=</span> mlModel<span style="font-weight:bold">$</span>pred<span style="font-weight:bold">$</span>pred, reference <span style="font-weight:bold">=</span> trainY, mode <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;prec_recall&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conf<span style="font-weight:bold">$</span>overall
+</span></span></code></pre></div><pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##     0.06090652    -0.01140231     0.04442535     0.08116699     0.11331445 
+## AccuracyPValue  McnemarPValue 
+##     0.99999930            NaN
+</code></pre>
+<p>After controlling for sampling site and other unwanted batch effects,
+the machine learning model achieved an accuracy of 0.0609065 which is
+not significantly more than a null model.</p>
+<p>Our approach to normalisation has been quite strict, so this analysis
+does not rule out an association between microbial reads and cancer
+types in this data set. In fact, due to the correlation between unwanted
+batch effects and cancer type it is challenging to identify robust
+microbial signatures associated with cancer in the TCGA data set.</p>
+<p>However, it does indicate that by using appropriate normalisation
+techniques we are able to account for problems with contamination and
+database errors.</p>
+<p>In the future, careful study designs that include body site specific but
+non-cancerous controls are necessary to accurately identify association
+between microbial DNA and cancer types.</p>
+<p>Ultimately, to ascertain whether microbial DNA signatures can be
+utilised in cancer diagnostics, large comprehensive trials encompassing
+both cancer-afflicted and healthy patients will be required.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to Prof. Lachlan Coin for helpful advice and comments.</p>
+<h2 id="references">References</h2>
+<p>Sepich-Poore G. tcga_rebuttal: Re-analysis of data provided by Gihawi et
+al. 2023 bioRxiv. Github; Available:
+<a href="https://github.com/gregpoore/tcga_rebuttal">https://github.com/gregpoore/tcga_rebuttal</a></p>
+<p>Gihawi A, Ge Y, Lu J, Puiu D, Xu A, Cooper CS, et al. Major data
+analysis errors invalidate cancer microbiome findings. <em>bioRxiv</em>. 2023.
+p. 2023.07.28.550993. <a href="doi:10.1101/2023.07.28.550993">doi:10.1101/2023.07.28.550993</a></p>
+<p>Sepich-Poore GD, Kopylova E, Zhu Q, Carpenter C, Fraraccio S, Wandro S,
+et al. Reply to: Caution Regarding the Specificities of Pan-Cancer
+Microbial Structure. <em>bioRxiv</em>. 2023. p. 2023.02.10.528049.
+<a href="doi:10.1101/2023.02.10.528049">doi:10.1101/2023.02.10.528049</a></p>
+<p>Gihawi A, Cooper CS, Brewer DS. Caution Regarding the Specificities of
+Pan-Cancer Microbial Structure. <em>bioRxiv</em>. 2023. p. 2023.01.16.523562.
+<a href="doi:10.1101/2023.01.16.523562">doi:10.1101/2023.01.16.523562</a></p>
+<p>Austin GI, Park H, Meydan Y, Seeram D, Sezin T, Lou YC, et
+al. Contamination source modeling with SCRuB improves cancer phenotype
+prediction from microbiome data. <em>Nat Biotechnol</em>. 2023.
+<a href="doi:10.1038/s41587-023-01696-w">doi:10.1038/s41587-023-01696-w</a></p>
+<p>Poore GD, Kopylova E, Zhu Q, Carpenter C, Fraraccio S, Wandro S, et
+al. Microbiome analyses of blood and tissues suggest cancer diagnostic
+approach. <em>Nature</em>. 2020;579: 567–574. <a href="doi:10.1038/s41586-020-2095-1">doi:10.1038/s41586-020-2095-1</a></p>
+<p>Wang Y, LêCao K-A. Managing batch effects in microbiome data. <em>Brief
+Bioinform</em>. 2020;21: 1954–1970. <a href="doi:10.1093/bib/bbz105">doi:10.1093/bib/bbz105</a></p>
+<p>Zappia L, Phipson B, Oshlack A. Splatter: simulation of single-cell RNA
+sequencing data. <em>Genome Biol</em>. 2017;18: 174.
+<a href="doi:10.1186/s13059-017-1305-0">doi:10.1186/s13059-017-1305-0</a></p>
+<p>Mecham BH, Nelson PS, Storey JD. Supervised normalization of
+microarrays. <em>Bioinformatics</em>. 2010;26: 1308–1315.
+<a href="doi:10.1093/bioinformatics/btq118">doi:10.1093/bioinformatics/btq118</a></p>
+
+		</div>
+	</article>
+</main>
+
+
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 .
+			<span class="footer__copyright-credits">Gerry Tonkin-Hill. Generated with Hugo and the Mainroad theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -3,7 +3,10 @@ languageCode = "en-au"
 paginate = "10" # Number of posts per page
 theme = "mainroad"
 disqusShortname = "" # Enable comments by entering your Disqus shortname
-googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+googleAnalytics = "UA-114314394-1" # Enable Google Analytics by entering your tracking id
+
+[markup.goldmark.renderer]
+  unsafe = true
 
 [Params.logo]
   title = "Computational Microbiology"
@@ -14,6 +17,13 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   name = "Gerry Tonkin-Hill"
   bio = ""
 
+[menu]
+  [[menu.main]]
+    identifier = "publications"
+    name = "Publications"
+    url = "https://scholar.google.com/citations?user=rpyuABcAAAAJ&hl"
+    weight = 4
+
 [Params]
   description = "Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" 
   opengraph = true
@@ -22,7 +32,7 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   authorbox = false
   pager = false
   post_meta = ["author", "date", "categories"] # Order of post meta information
-  mainSections = ["about", "team", "publications", "software", "blog"]
+  mainSections = ["about", "research", "team", "publications", "software", "blog"]
   customCSS = ["css/custom.css", "css/software.css", "css/team.css"]
   googleFontsLink = "https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap"
   copyrightHolder = "Gerry Tonkin-Hill"

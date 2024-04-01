@@ -61,10 +61,6 @@ jobs:
         with:
           path: ./public
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Checkout the gtonkinhill.github.io repository
         uses: actions/checkout@v2
         with:

@@ -7,7 +7,7 @@ menu: main
 weight: 1
 ---
 
-Based at the [Peter MacCallum Cancer Center](https://www.petermac.org/) and the [Peter Doherty Institute for Infection and Immunity](https://www.doherty.edu.au/) in Melbourne, Australia, the Computational Microbiology group, led by Gerry Tonkin-Hill, works closely with clinical and wet-lab collaborators to improve our understanding of how microbes evolve, transmit between and interact with their hosts. 
+Based at the [Peter MacCallum Cancer Centre](https://www.petermac.org/) and the [Peter Doherty Institute for Infection and Immunity](https://www.doherty.edu.au/) in Melbourne, Australia, the Computational Microbiology group, led by Gerry Tonkin-Hill, works closely with clinical and wet-lab collaborators to improve our understanding of how microbes evolve, transmit between and interact with their hosts. 
 
 These microbial interactions play a critical role in our health and can have profound impacts on the treatment of both infectious and non-infectious diseases, including cancer. Accurate models of these interactions will help to create optimal microbiome-targeted therapies and mitigate the impact of infectious disease.
 

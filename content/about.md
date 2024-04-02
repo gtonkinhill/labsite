@@ -11,9 +11,9 @@ Based at the [Peter MacCallum Cancer Center](https://www.petermac.org/) and the 
 
 These microbial interactions play a critical role in our health and can have profound impacts on the treatment of both infectious and non-infectious diseases, including cancer. Accurate models of these interactions will help to create optimal microbiome-targeted therapies and mitigate the impact of infectious disease.
 
-<div class="hide-on-mobile">
-
 ---
+
+<div class="hide-on-mobile">
 
 <p align="center" style="font-size:larger; margin-bottom:0;">
   Global burden of disease

@@ -11,9 +11,10 @@ weight: 1
 
 The size of microbial genomics and metagenomic datasets is rapidly increasing. We develop highly scalable statistical and machine learning algorithms to analyse these datasets efficiently. Key areas of interest include:
 
-- Transmission inference
 - Linking genotype to phenotype
 - Pangenomics
+- Gene prediction, protein annotation and clustering
+- Transmission inference
 - Phylodynamics and population structure
 - Approximate Bayesian Computation and Likelihood Free Inference techniques
 

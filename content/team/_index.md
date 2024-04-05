@@ -1,4 +1,4 @@
----
+<!-- ---
 title: People
 hideTitle: true
 authorbox: false
@@ -7,4 +7,4 @@ menu: main
 weight: 2
 ---
 
-
+ -->

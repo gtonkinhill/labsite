@@ -43,8 +43,9 @@ jobs:
           python-version: '3.11'  # Specify the Python version you need
         
       - name: Install python dependencies
-        run: pip install bibtexparser
-        run: pip install requests
+        run: |
+          pip install bibtexparser
+          pip install requests
         
       - name: Run scholar.py script
         run: python scholar.py

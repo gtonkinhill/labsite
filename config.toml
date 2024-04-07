@@ -16,13 +16,6 @@ googleAnalytics = "G-8F5YNGFHP4" # Enable Google Analytics by entering your trac
   name = "Gerry Tonkin-Hill"
   bio = ""
 
-[menu]
-  [[menu.main]]
-    identifier = "publications"
-    name = "Publications"
-    url = "https://scholar.google.com/citations?user=rpyuABcAAAAJ&hl"
-    weight = 4
-
 [Params]
   description = "Tonkin-Hill labratory website at the Peter MacCallum Cancer Center and the Peter Doherty Institute" 
   opengraph = true

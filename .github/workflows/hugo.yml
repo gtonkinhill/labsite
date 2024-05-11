@@ -49,8 +49,8 @@ jobs:
           pip install bibtexparser
           pip install requests
         
-      - name: Run scholar.py script
-        run: python scholar.py
+      - name: Run orcid.py script
+        run: python orcid.py
           
       - name: Setup Pages
         id: pages

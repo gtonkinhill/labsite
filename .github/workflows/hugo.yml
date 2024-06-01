@@ -70,6 +70,9 @@ jobs:
             
       - name: Verify public directory
         run: ls -lah public/
+
+      - name: Create CNAME file
+        run: echo "gthlab.au" > public/CNAME
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

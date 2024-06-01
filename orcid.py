@@ -77,7 +77,7 @@ def publications_to_markdown(publications):
             markdown += f" et al., "            
         if journal:
             markdown += f" *{journal}*"
-        markdown += f", ({publication_year})"
+        markdown += f" ({publication_year})"
 
         if link_type in ['doi', 'pmid']:
             markdown += f"  {{{{< fa-link url=\"{weblink}\" >}}}}"

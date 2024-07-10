@@ -16,5 +16,6 @@ icons:
     icon: "fab fa-twitter"
   - url: "https://orcid.org/0000-0003-4397-2224"
     icon: "fab fa-orcid"
+weight: 1
 ---
 With a background in statistical and computational genomics, Gerry has developed highly used algorithms for analysing microbial genomics data. These algorithms have been applied to a wide range of microbes, including parasites, viruses, and bacteria. Prior to starting at Peter Mac, Gerry completed a PhD in Mathematical Genomics and Medicine at the University of Cambridge and the Wellcome Sanger Institute, followed by a postdoctoral fellowship at the Oslo Centre for Biostatistics and Epidemiology.

@@ -1,5 +1,5 @@
 ---
-title: Jobs
+title: Positions
 hideTitle: true
 authorbox: false
 sidebar: false
@@ -7,16 +7,15 @@ menu: main
 weight: 5
 ---
 
+Student projects (PhD, Masters, undergraduate) are available through the University of Melbourne. Please get in touch if you are interested.
 
-**PhD** positions are available through the University of Melbourne’s PhD program. We currently have at least one position available for the upcoming round, with applications due by October 31, 2024.
+Please reach out for **postdoc** or fellowship opportunities. There is some limited funding available via the University of Melbourne including the [McKenzie Postdoctoral Fellowships Scheme](https://sites.research.unimelb.edu.au/research-funding/researcher-development-schemes/mckenzie-fellowship).
 
-For **postdoc** or fellowship opportunities, please reach out to Gerry. There are some limited fellowship opportunities including the [McKenzie Postdoctoral Fellowships Scheme](https://sites.research.unimelb.edu.au/research-funding/researcher-development-schemes/mckenzie-fellowship). Internally funded position will be advertised below.
-
-For **visitor** inquiries, kindly email Gerry as well.
+Visitors are also welcome!
 
 ---
 
-## Open positions
+## Open funded positions
 
 
 - #### PhD - Statistical and Machine Learning Methods for Microbial Genomics

@@ -10,4 +10,4 @@ weight: 1
 ---
 
 
-An error aware pipeline for pangenome investigation
+An error aware pipeline for pangenome investigation.

@@ -73,6 +73,9 @@ jobs:
 
       - name: Create CNAME file
         run: echo "gthlab.au" > public/CNAME
+
+      - name: Disable Jekyll on GitHub Pages
+        run: touch public/.nojekyll
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

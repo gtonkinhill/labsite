@@ -1,12 +1,17 @@
 ---
 title: "Hiruni Wijewardena"
-role: "PhD student"
+role: "PhD Student"
 image: "/img/avatars/hiruni.jpeg"
 authorbox: false
 sidebar: false
 layout: team
 emailUser: lwijewardena
 emailDomain: student.unimelb.edu.au
+icons:
+  - url: "https://github.com/Hiruni-Wijewardena"
+    icon: "fab fa-github"
+  - url: "https://orcid.org/0009-0004-3877-0980"
+    icon: "fab fa-orcid"
 weight: 5
 ---
 

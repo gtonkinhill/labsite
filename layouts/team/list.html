@@ -12,7 +12,10 @@
         {{ . }}
     </div>
     {{- end }}
-    {{ range .Pages }}
+    {{ $team := .Pages }}
+    {{ $current := where $team "Params.alumni" "!=" true }}
+    {{ $alumni := where $team "Params.alumni" true }}
+    {{ range $current }}
     <div class="team-member">
         <div class="team-left">
             <img class="team-photo" src="{{ .Params.image }}" alt="{{ .Title }}">
@@ -35,6 +38,29 @@
             <p class="team-bio">{{ .Content }}</p>
         </div>
     </div>
+    {{ end }}
+    {{ if $alumni }}
+    <header class="main__header">
+        <h1 class="main__title">Alumni</h1>
+    </header>
+    {{ range $alumni }}
+    <div class="team-member alumni-simple" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.5rem 0;">
+        <h3 class="team-name" style="margin: 0;">{{ .Title }}</h3>
+        {{ if .Params.role }}<span class="team-role" style="color: #666;">- {{ .Params.role }}</span>{{ end }}
+        <div class="team-icons">
+          {{ range .Params.icons }}
+              <a href="{{ .url }}" class="icon">
+                  <i class="{{ .icon }}"></i>
+              </a>
+          {{ end }}
+          {{- if and .Params.emailUser .Params.emailDomain }}
+              <a href="mailto:{{ .Params.emailUser | urlize }}&#64;{{ .Params.emailDomain | urlize }}" class="icon">
+                  <i class="fas fa-envelope"></i> <!-- FontAwesome envelope icon -->
+              </a>
+          {{- end }}
+      </div>
+    </div>
+    {{ end }}
     {{ end }}
 </main>
 {{ partial "pagination.html" . }}

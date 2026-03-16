@@ -15,5 +15,6 @@ icons:
   - url: "ORCID: https://orcid.org/0000-0002-4500-4078 "
     icon: "fab fa-orcid"
 weight: 7
+alumni: true
 ---
 For the past seven years, first as a PhD student and now as a postdoctoral fellow, my research has examined how cancer chemotherapeutic drugs affect Escherichia coli, with particular emphasis on their potential role in driving the evolution of antimicrobial resistance (AMR). I was introduced to AMR research as a master’s student investigating de novo gene origination using AMR as a selection tool – an experience that sparked my long-standing interest in the evolutionary dynamics of resistance.

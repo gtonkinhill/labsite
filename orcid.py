@@ -42,6 +42,10 @@ def format_author_name(name):
 def publications_to_markdown(publications):
     """Convert publications data from ORCID to Markdown format."""
     pubs_by_year = defaultdict(list)
+    
+    if not publications:
+        return pubs_by_year
+        
     for publication in publications.get('group', []):
         # Attempt to extract title and publication date
         # print(publication['work-summary'])
@@ -67,7 +71,11 @@ def publications_to_markdown(publications):
         # Get author names
         put_code = publication['work-summary'][0]['put-code']
         publication_detail = fetch_orcid_publication_details(orcid_id, put_code)
-        authors = [contributor['credit-name']['value'] for contributor in publication_detail.get('contributors', {}).get('contributor', []) if 'credit-name' in contributor]
+        
+        authors = []
+        if publication_detail:
+            authors = [contributor['credit-name']['value'] for contributor in publication_detail.get('contributors', {}).get('contributor', []) if 'credit-name' in contributor]
+            
         formatted_authors = [format_author_name(author) for author in authors[:MAX_AUTHORS]]
         
         # Write markdown for each citation

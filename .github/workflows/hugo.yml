@@ -8,7 +8,7 @@ on:
     - cron: '0 0 1 * *'
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -102,3 +102,13 @@ jobs:
           user_name: 'GitHub Actions'
           user_email: 'github-actions@users.noreply.github.com'
           commit_message: 'Deploy Hugo site update'
+
+      - name: Record successful scheduled refresh
+        if: github.event_name == 'schedule'
+        run: |
+          date --utc '+%Y-%m-%dT%H:%M:%SZ' > .github/workflow-heartbeat
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/workflow-heartbeat
+          git commit -m 'chore: record monthly workflow heartbeat [skip ci]'
+          git push

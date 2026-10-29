@@ -30,14 +30,17 @@ def fetch_orcid_publication_details(orcid_id, put_code):
 
 def format_author_name(name):
     """Format the author's name as 'Lastname, Initial.'"""
-    parts = name.split()
-    if len(parts) > 1:
-        firstname, lastname = parts[0], parts[-1]
-        if lastname in LAB_LAST_NAMES:
-            return f"**{lastname}, {firstname[0]}**"
-        else:
-            return f"{lastname}, {firstname[0]}."
-    return name  # Fallback if the name does not split correctly
+    if ',' in name:
+        # Already 'Lastname, Initials' (e.g. Scopus records: 'Xie, O.')
+        lastname, initials = [p.strip() for p in name.split(',', 1)]
+    else:
+        parts = name.split()
+        if len(parts) < 2:
+            return name  # Fallback if the name does not split correctly
+        lastname, initials = parts[-1], f"{parts[0][0]}."
+    if lastname in LAB_LAST_NAMES:
+        return f"**{lastname}, {initials}**"
+    return f"{lastname}, {initials}"
 
 def publications_to_markdown(publications):
     """Convert publications data from ORCID to Markdown format."""
